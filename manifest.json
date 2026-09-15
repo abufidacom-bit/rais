@@ -1,5 +1,5 @@
 {
-  "short_name": "RAIS",
+  "short_name": "RadioIslamSragen",
   "name": "Radio Islam Sragen",
   "icons": [
     {
@@ -16,6 +16,6 @@
   "start_url": "index.html",
   "background_color": "#121212",
   "display": "standalone",
-  "theme_color": "#121212",
+  "theme_color": "#1b4d3e",
   "orientation": "portrait"
 }
