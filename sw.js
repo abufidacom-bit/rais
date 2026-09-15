@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radio-islam-sragen-v2';
+const CACHE_NAME = 'sragens-station-v1';
 const ASSETS = [
   'index.html',
   'manifest.json',
@@ -15,9 +15,16 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  if (e.request.url.includes('11252') || e.request.url.includes('radioislam') || e.request.url.includes('proxy')) {
-    return;
+  // PENGECUALIAN: Jangan cache data audio streaming, proxy, atau pemutar eksternal
+  if (
+    e.request.url.includes('streamy1') || 
+    e.request.url.includes('radioislam') || 
+    e.request.url.includes('corsproxy') ||
+    e.request.url.includes('player')
+  ) {
+    return; // Biarkan request langsung menembus ke internet (Network Only)
   }
+  
   e.respondWith(
     caches.match(e.request).then((response) => {
       return response || fetch(e.request);
