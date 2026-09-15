@@ -72,6 +72,22 @@
             color: #a0a0a0; 
             font-size: 14px; 
             font-style: italic;
+            line-height: 1.4;
+        }
+        .btn-help {
+            display: none;
+            background: none;
+            border: 1px solid #ffb703;
+            color: #ffb703;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 15px auto 0 auto;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-help:hover {
+            background: rgba(255, 183, 3, 0.1);
         }
     </style>
 </head>
@@ -82,27 +98,30 @@
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
     
-    <!-- AUDIO ELEMENT STANDARD DENGAN PARAMETER FORCE DIRECT FORMAT -->
+    <!-- AUDIO ELEMENT STANDARD -->
     <audio id="audio-player" preload="none" crossorigin="anonymous"></audio>
 
     <button class="btn-play" id="play-btn">PUTAR</button>
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
+    <button class="btn-help" id="help-btn" onclick="showInstructions()">Cara Mengaktifkan Suara</button>
 </div>
 
 <script>
-    // URL format Shoutcast langsung yang memaksa browser menerima stream audio mentah
+    // URL format Shoutcast langsung
     const STREAM_URL = "http://radioislam.my.id"; 
     
     const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
+    const helpBtn = document.getElementById('help-btn');
     let isPlaying = false;
 
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
             statusText.innerText = "Menghubungkan ke server...";
+            helpBtn.style.display = "none";
             
-            // Memberikan sid/penanda waktu agar browser tidak menumpuk cache audio lama
+            // Bypass cache agar selalu memuat siaran paling baru
             audio.src = STREAM_URL + "?ts=" + Date.now();
             
             audio.play()
@@ -113,21 +132,27 @@
                     statusText.innerText = "Memutar Audio Streaming Live";
                 })
                 .catch(err => {
-                    statusText.innerText = "Gagal memuat stream (Kendala Protokol HTTP)";
+                    isPlaying = false;
+                    playBtn.innerText = "PUTAR";
+                    playBtn.style.background = "#1b4d3e";
+                    statusText.innerHTML = "Gagal memuat suara.<br><span style='color:#ffb703; font-size:12px;'>Diblokir oleh proteksi keamanan Browser.</span>";
+                    helpBtn.style.display = "block"; // Munculkan tombol bantuan secara halus
                     console.error("Error Detail:", err);
-                    
-                    // Catatan edukasi untuk pemilik web: 
-                    alert("Browser Anda memblokir stream karena server radio menggunakan HTTP (Bukan HTTPS). Harap aktifkan izin 'Insecure Content' di pengaturan browser untuk alamat web ini agar suara dapat keluar.");
                 });
         } else {
             audio.pause();
-            audio.src = ""; // Memotong unduhan data internet total
+            audio.src = ""; // Memotong koneksi internet secara total
             isPlaying = false;
             playBtn.innerText = "PUTAR";
             playBtn.style.background = "#1b4d3e";
             statusText.innerText = "Streaming dihentikan";
+            helpBtn.style.display = "none";
         }
     });
+
+    function showInstructions() {
+        alert("Agar suara kajian bisa keluar, silakan:\n\n1. Klik ikon Pengaturan Situs / Gembok di sebelah kiri alamat URL web ini (bagian atas browser).\n2. Pilih 'Pengaturan Situs' (Site Settings).\n3. Cari menu 'Konten tidak aman' (Insecure content).\n4. Ubah opsinya menjadi 'Izinkan' (Allow).\n5. Buka kembali halaman ini dan segarkan (refresh).");
+    }
 
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
