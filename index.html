@@ -1,235 +1,116 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Islam Sragen</title>
-    <!-- Hubungkan ke file Manifest PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1b4d3e">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .player-card {
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            text-align: center;
-            width: 290px;
-            border-top: 5px solid #1b4d3e;
-        }
-        .logo-placeholder {
-            width: 120px;
-            height: 120px;
-            background: #1b4d3e;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.5);
-        }
-        .station-title {
-            margin: 10px 0 5px 0;
-            font-size: 22px;
-            color: #e0e0e0;
-        }
-        .now-playing-box {
-            background: #2a2a2a;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin: 10px 0 20px 0;
-            min-height: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-left: 3px solid #ffb703;
-        }
-        .now-playing-label {
-            font-size: 10px;
-            color: #ffb703;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
-            font-weight: bold;
-        }
-        .track-title {
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .btn-play {
-            background: #b33939; /* Default langsung merah karena otomatis memuat */
-            border: none;
-            color: white;
-            padding: 14px 40px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            width: 100%;
-        }
-        .btn-play:hover { 
-            transform: scale(1.03);
-        }
-        .status { 
-            margin-top: 20px; 
-            color: #a0a0a0; 
-            font-size: 13px; 
-            font-style: italic;
-            line-height: 1.4;
-        }
-        .btn-help {
-            display: none;
-            background: none;
-            border: 1px solid #ffb703;
-            color: #ffb703;
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 4px;
-            margin: 15px auto 0 auto;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-help:hover {
-            background: rgba(255, 183, 3, 0.1);
-        }
-    </style>
-</head>
-<body>
+const STREAM_URL = "http://radioislam.my.id"; 
+// Memanfaatkan Endpoint JSON resmi Shoutcast lewat jalur CorsProxy.io yang super cepat
+const METADATA_URL = "https://corsproxy.io/?" + encodeURIComponent("http://radioislam.my.id");
 
-<div class="player-card">
-    <div class="logo-placeholder">🕌</div>
-    <h2 class="station-title">Radio Islam Sragen</h2>
-    
-    <!-- DYNAMIC TITLE STREAM BOX -->
-    <div class="now-playing-box">
-        <div class="now-playing-label">Sedang Diputar</div>
-        <div class="track-title" id="track-title">Memuat judul kajian...</div>
-    </div>
-    
-    <!-- AUDIO ELEMENT STANDARD DENGAN DISET MUTED SEJAK AWAL UNTUK BYPASS AUTOPLAY POLICY -->
-    <audio id="audio-player" preload="auto" crossorigin="anonymous" muted></audio>
+const audio = document.getElementById('audio-player');
+const playBtn = document.getElementById('play-btn');
+const statusText = document.getElementById('status-text');
+const trackTitleDisplay = document.getElementById('track-title');
+const helpBtn = document.getElementById('help-btn');
+let isPlaying = false;
 
-    <button class="btn-play" id="play-btn">HENTIKAN</button>
-    <p class="status" id="status-text">Menghubungkan ke siaran live...</p>
-    <button class="btn-help" id="help-btn" onclick="showInstructions()">Cara Mengaktifkan Suara</button>
-</div>
-
-<script>
-    const STREAM_URL = "http://radioislam.my.id"; 
-    
-    const audio = document.getElementById('audio-player');
-    const playBtn = document.getElementById('play-btn');
-    const statusText = document.getElementById('status-text');
-    const trackTitleDisplay = document.getElementById('track-title');
-    const helpBtn = document.getElementById('help-btn');
-    let isPlaying = false;
-
-    // FUNGSI MENGAMBIL METADATA JUDUL KAJIAN
-    async function fetchMetadata() {
+// FUNGSI PENGAMBILAN METADATA JUDUL KAJIAN SECARA REAL-TIME
+async function fetchMetadata() {
+    try {
+        const response = await fetch(METADATA_URL);
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Membaca objek JSON bawaan Shoutcast (songtitle)
+            if (data && data.songtitle) {
+                trackTitleDisplay.innerText = data.songtitle;
+            } else {
+                trackTitleDisplay.innerText = "Siaran Kajian Islam Sragen";
+            }
+        }
+    } catch (error) {
+        console.log("Gagal memuat judul otomatis, mencoba fallback...", error);
+        
+        // JALUR CADANGAN: Jika JSON dibatasi, tembak stats /7.html via proxy alternatif
         try {
-            const response = await fetch(`https://allorigins.win{encodeURIComponent('http://radioislam.my.id')}`);
-            if (response.ok) {
-                const data = await response.json();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data.contents, 'text/html');
-                const statsText = doc.body.textContent || "";
-                const statsArray = statsText.split(',');
-                
+            const fallbackResponse = await fetch("https://corsproxy.io/?" + encodeURIComponent("http://radioislam.my.id"));
+            if (fallbackResponse.ok) {
+                const textData = await fallbackResponse.text();
+                const statsArray = textData.split(',');
                 if (statsArray.length >= 7 && statsArray[6].trim() !== "") {
                     trackTitleDisplay.innerText = statsArray[6];
-                } else {
-                    trackTitleDisplay.innerText = "Siaran Kajian Islam Sragen";
+                    return;
                 }
             }
-        } catch (error) {
-            trackTitleDisplay.innerText = "Kajian Islam Live";
+        } catch (e) {
+            console.log("Jalur cadangan juga gagal.");
         }
+        
+        trackTitleDisplay.innerText = "Kajian Islam Live (Aktif)";
     }
+}
 
-    fetchMetadata();
-    setInterval(fetchMetadata, 10000);
+// Jalankan sistem pembaca judul saat pertama kali dibuka, dan perbarui otomatis setiap 8 detik
+fetchMetadata();
+setInterval(fetchMetadata, 8000);
 
-    // FUNGSI UTAMA UNTUK MENYALAKAN AUDIO
-    function startStreaming() {
-        audio.src = STREAM_URL + "?ts=" + Date.now();
-        audio.play()
-            .then(() => {
-                isPlaying = true;
-                playBtn.innerText = "HENTIKAN";
-                playBtn.style.background = "#b33939";
+// FUNGSI UTAMA UNTUK MENYALAKAN AUDIO
+function startStreaming() {
+    audio.src = STREAM_URL + "?ts=" + Date.now();
+    audio.play()
+        .then(() => {
+            isPlaying = true;
+            playBtn.innerText = "HENTIKAN";
+            playBtn.style.background = "#b33939";
+            statusText.innerText = "Memutar Audio Streaming Live";
+            
+            // Mekanisme menyalakan suara otomatis saat layar disentuh pendengar
+            const unmuteAction = () => {
+                audio.muted = false; 
                 statusText.innerText = "Memutar Audio Streaming Live";
-                
-                // Pemicu otomatis: Begitu pengguna menyentuh/mengklik layar apa saja, bunyikan suaranya
-                const unmuteAction = () => {
-                    audio.muted = false; // Aktifkan suara keras
-                    statusText.innerText = "Memutar Audio Streaming Live";
-                    // Hapus pendengar agar tidak terpicu berulang kali
-                    window.removeEventListener('click', unmuteAction);
-                    window.removeEventListener('touchstart', unmuteAction);
-                };
-                window.addEventListener('click', unmuteAction);
-                window.addEventListener('touchstart', unmuteAction);
-            })
-            .catch(err => {
-                isPlaying = false;
-                playBtn.innerText = "PUTAR";
-                playBtn.style.background = "#1b4d3e";
-                statusText.innerHTML = "Gagal memuat suara.<br><span style='color:#ffb703; font-size:12px;'>Diblokir oleh proteksi keamanan Browser.</span>";
-                helpBtn.style.display = "block";
-            });
-    }
-
-    // JALANKAN OTOMATIS (AUTOPLAY) SAAT HALAMAN SELESAI DIMUAT
-    window.addEventListener('DOMContentLoaded', () => {
-        startStreaming();
-    });
-
-    // TOMBOL MANUAL TETAP BERFUNGSI SEMPURNA
-    playBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Mencegah bentrok dengan efek pengetukan layar global
-        if (!isPlaying) {
-            statusText.innerText = "Menghubungkan ke server...";
-            helpBtn.style.display = "none";
-            audio.muted = false; // Jika diklik manual, pastikan langsung bersuara
-            startStreaming();
-        } else {
-            audio.pause();
-            audio.src = "";
+                window.removeEventListener('click', unmuteAction);
+                window.removeEventListener('touchstart', unmuteAction);
+            };
+            window.addEventListener('click', unmuteAction);
+            window.addEventListener('touchstart', unmuteAction);
+        })
+        .catch(err => {
             isPlaying = false;
             playBtn.innerText = "PUTAR";
             playBtn.style.background = "#1b4d3e";
-            statusText.innerText = "Streaming dihentikan";
-            helpBtn.style.display = "none";
-        }
-    });
-
-    function showInstructions() {
-        alert("Agar suara kajian bisa keluar, silakan:\n\n1. Klik ikon Pengaturan Situs / Gembok di sebelah kiri alamat URL web ini (bagian atas browser).\n2. Pilih 'Pengaturan Situs' (Site Settings).\n3. Cari menu 'Konten tidak aman' (Insecure content).\n4. Ubah opsinya menjadi 'Izinkan' (Allow).\n5. Buka kembali halaman ini dan segarkan (refresh).");
-    }
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Radio Islam Sragen Aktif!'))
-                .catch(err => console.log('PWA Gagal:', err));
+            statusText.innerHTML = "Gagal memuat suara.<br><span style='color:#ffb703; font-size:12px;'>Diblokir oleh proteksi keamanan Browser.</span>";
+            helpBtn.style.display = "block";
         });
+}
+
+// Jalankan Autoplay Muted saat website selesai dimuat
+window.addEventListener('DOMContentLoaded', () => {
+    startStreaming();
+});
+
+// Tombol manual kontrol kendali radio
+playBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    if (!isPlaying) {
+        statusText.innerText = "Menghubungkan ke server...";
+        helpBtn.style.display = "none";
+        audio.muted = false; 
+        startStreaming();
+    } else {
+        audio.pause();
+        audio.src = "";
+        isPlaying = false;
+        playBtn.innerText = "PUTAR";
+        playBtn.style.background = "#1b4d3e";
+        statusText.innerText = "Streaming dihentikan";
+        helpBtn.style.display = "none";
     }
-</script>
-</body>
-</html>
+});
+
+function showInstructions() {
+    alert("Agar suara kajian bisa keluar, silakan:\n\n1. Klik ikon Pengaturan Situs / Gembok di sebelah kiri alamat URL web ini (bagian atas browser).\n2. Pilih 'Pengaturan Situs' (Site Settings).\n3. Cari menu 'Konten tidak aman' (Insecure content).\n4. Ubah opsinya menjadi 'Izinkan' (Allow).\n5. Buka kembali halaman ini dan segarkan (refresh).");
+}
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('PWA Radio Islam Sragen Aktif!'))
+            .catch(err => console.log('PWA Gagal:', err));
+    });
+}
