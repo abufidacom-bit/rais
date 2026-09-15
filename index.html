@@ -81,16 +81,19 @@
     <div class="logo-placeholder">🕌</div>
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
+    
+    <!-- AUDIO ELEMENT STANDARD DENGAN PARAMETER FORCE DIRECT FORMAT -->
+    <audio id="audio-player" preload="none" crossorigin="anonymous"></audio>
+
     <button class="btn-play" id="play-btn">PUTAR</button>
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
 <script>
-    // URL STREAMING DENGAN SSL PROXY AGAR BISA BERBUNYI DI GITHUB PAGES (HTTPS)
-    const STREAM_URL = "https://mixstream.net"; 
+    // URL format Shoutcast langsung yang memaksa browser menerima stream audio mentah
+    const STREAM_URL = "http://radioislam.my.id"; 
     
-    const audio = new Audio();
-    audio.crossOrigin = "anonymous";
+    const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
     let isPlaying = false;
@@ -98,7 +101,10 @@
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
             statusText.innerText = "Menghubungkan ke server...";
-            audio.src = STREAM_URL;
+            
+            // Memberikan sid/penanda waktu agar browser tidak menumpuk cache audio lama
+            audio.src = STREAM_URL + "?ts=" + Date.now();
+            
             audio.play()
                 .then(() => {
                     isPlaying = true;
@@ -107,22 +113,15 @@
                     statusText.innerText = "Memutar Audio Streaming Live";
                 })
                 .catch(err => {
-                    statusText.innerText = "Mencoba jalur cadangan...";
-                    audio.src = "http://sragen.radioislam.my.id:11252/;";
-                    audio.play()
-                        .then(() => {
-                            isPlaying = true;
-                            playBtn.innerText = "HENTIKAN";
-                            statusText.innerText = "Memutar Siaran Live";
-                        })
-                        .catch(e => {
-                            statusText.innerText = "Gagal memuat stream (Mixed Content Error)";
-                            console.error(e);
-                        });
+                    statusText.innerText = "Gagal memuat stream (Kendala Protokol HTTP)";
+                    console.error("Error Detail:", err);
+                    
+                    // Catatan edukasi untuk pemilik web: 
+                    alert("Browser Anda memblokir stream karena server radio menggunakan HTTP (Bukan HTTPS). Harap aktifkan izin 'Insecure Content' di pengaturan browser untuk alamat web ini agar suara dapat keluar.");
                 });
         } else {
             audio.pause();
-            audio.src = ""; 
+            audio.src = ""; // Memotong unduhan data internet total
             isPlaying = false;
             playBtn.innerText = "PUTAR";
             playBtn.style.background = "#1b4d3e";
@@ -130,6 +129,7 @@
         }
     });
 
+    // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
