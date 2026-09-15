@@ -1,6 +1,7 @@
-const STREAM_URL = "http://radioislam.my.id"; 
+// VARIABEL ALAMAT SERVER STREAMING & METADATA BARU
+const STREAM_URL = "https://streamy1.radioislam.my.id/player/sragen-s-station/"; 
 // Memanfaatkan Endpoint JSON resmi Shoutcast lewat jalur CorsProxy.io yang super cepat
-const METADATA_URL = "https://corsproxy.io/?" + encodeURIComponent("http://radioislam.my.id");
+const METADATA_URL = "https://corsproxy.io/?" + encodeURIComponent("https://streamy1.radioislam.my.id/player/sragen-s-station/");
 
 const audio = document.getElementById('audio-player');
 const playBtn = document.getElementById('play-btn');
@@ -28,7 +29,7 @@ async function fetchMetadata() {
         
         // JALUR CADANGAN: Jika JSON dibatasi, tembak stats /7.html via proxy alternatif
         try {
-            const fallbackResponse = await fetch("https://corsproxy.io/?" + encodeURIComponent("http://radioislam.my.id"));
+            const fallbackResponse = await fetch("https://corsproxy.io/?" + encodeURIComponent("https://streamy1.radioislam.my.id/player/sragen-s-station/"));
             if (fallbackResponse.ok) {
                 const textData = await fallbackResponse.text();
                 const statsArray = textData.split(',');
