@@ -89,8 +89,9 @@
 </div>
 
 <script>
-   // URL STREAMING YANG SUDAH DISESUAIKAN UNTUK PEMUTAR AUDIO PWA
-const BASE_STREAM_URL = "http://streamy1.radioislam.my.id:9210/;stream.mp3"; 
+// URL STREAMING ASLI YANG DIBUNGKUS HTTPS PROXY PIHAK KETIGA (CORSPROXY.IO)
+const ORIGINAL_STREAM_URL = "http://streamy1.radioislam.my.id:9210/;stream.mp3";
+const BASE_STREAM_URL = "https://corsproxy.io" + encodeURIComponent(ORIGINAL_STREAM_URL);
 
 const audio = new Audio();
 audio.crossOrigin = "anonymous";
@@ -100,10 +101,10 @@ let isPlaying = false;
 
 playBtn.addEventListener('click', () => {
     if (!isPlaying) {
-        statusText.innerText = "Menghubungkan ke server...";
+        statusText.innerText = "Menghubungkan ke server secure proxy...";
         
-        // Memakai parameter waktu unik (?cb=) agar browser tidak memblokir protokol HTTP di halaman HTTPS
-        audio.src = BASE_STREAM_URL + "?cb=" + Date.now();
+        // Memakai parameter waktu unik (?cb=) agar tautan streaming selalu segar dan real-time
+        audio.src = BASE_STREAM_URL + "&cb=" + Date.now();
         audio.load();
         
         audio.play()
@@ -114,7 +115,7 @@ playBtn.addEventListener('click', () => {
                 statusText.innerText = "Memutar Audio Streaming Live";
             })
             .catch(err => {
-                statusText.innerText = "Gagal memuat stream (Cek koneksi/protokol HTTPS)";
+                statusText.innerText = "Gagal memuat stream. Silakan coba kembali.";
                 console.error("Kesalahan Streaming Audio:", err);
             });
     } else {
@@ -135,7 +136,6 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.log('PWA Gagal:', err));
     });
 }
-
 </script>
 </body>
 </html>
