@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <style>
-              /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */
+        /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */
         html, body {
             margin: 0;
             padding: 0;
@@ -25,20 +25,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            
-            /* DIUBAH: Mengganti center menjadi flex-start agar posisi awal berada di atas */
-            justify-content: flex-start; 
-            
-            /* DITAMBAHKAN: Memberikan jarak vertikal yang pas agar kartu terangkat ke atas layar */
-            padding-top: 8vh; 
-            
+            justify-content: center;
             overflow: hidden; /* Menghapus bar scroll */
             position: fixed;  /* Mengunci posisi layar dari efek bounce iOS */
             touch-action: none; /* Mematikan semua gerakan geser jari pada latar belakang */
             user-select: none;  /* Mencegah teks terblok atau tersorot secara tidak sengaja */
-            box-sizing: border-box;
         }
-
 
         /* Kartu Pemutar Terkunci Presisi di Tengah */
         .player-card {
