@@ -1,6 +1,6 @@
 {
-  "short_name": "IkhwahRadio",
-  "name": "Ikhwah Plupuh Radio Streaming",
+  "short_name": "RadioIslamSragen",
+  "name": "Radio Islam Sragen Streaming",
   "icons": [
     {
       "src": "icon-192.png",
@@ -16,6 +16,6 @@
   "start_url": "index.html",
   "background_color": "#121212",
   "display": "standalone",
-  "theme_color": "#121212",
+  "theme_color": "#1b4d3e",
   "orientation": "portrait"
 }
