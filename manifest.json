@@ -1,21 +1,21 @@
 {
-  "short_name": "RadioIslamSragen",
-  "name": "Radio Islam Sragen",
+  "short_name": "RII PWA",
+  "name": "Radio Islam Indonesia Web App",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "assets/icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icon-512.png",
+      "src": "assets/icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "index.html",
-  "background_color": "#121212",
+  "start_url": "/index.html",
+  "background_color": "#1E3A8A",
+  "theme_color": "#1E3A8A",
   "display": "standalone",
-  "theme_color": "#1b4d3e",
   "orientation": "portrait"
 }
