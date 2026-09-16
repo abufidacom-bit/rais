@@ -32,31 +32,25 @@
             user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */ 
             box-sizing: border-box; 
         } 
-        /* Kartu Pemutar Terkunci Presisi & Diubah Menjadi Glassmorphism Putih */ 
+        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */ 
         .player-card { 
-            background: rgba(255, 255, 255, 0.08); /* Warna dasar putih sangat transparan */
-            backdrop-filter: blur(16px) saturate(120%); /* Efek buram es / kaca kabur murni */
-            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            background: rgba(255, 255, 255, 0.1); /* MODIFIKASI: Mengubah latar menjadi putih transparan bening */
+            backdrop-filter: blur(20px); /* MODIFIKASI: Menambahkan efek kaca es buram */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* MODIFIKASI: Menambahkan garis tepi tipis semi-kaca */
             padding: 25px; 
             border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.15); /* Pantulan kilau cahaya di tepi kartu */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
             width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
             border-top: 5px solid #1b4d3e; 
-            border-left: 1px solid rgba(255, 255, 255, 0.1); /* Garis tepi tipis kaca */
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
-        /* Wadah Ikon yang Diselaraskan dengan Tema Glassmorphism */
         .logo-placeholder { 
             width: 80px; 
             height: 80px; 
-            background: rgba(27, 77, 62, 0.4); /* Kombinasi warna hijau andalan dengan transparansi kaca */
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: #1b4d3e; 
             border-radius: 50%; 
             margin: 0 auto 12px; 
             display: flex; 
@@ -64,19 +58,16 @@
             justify-content: center; 
             font-size: 32px; 
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.15);
         } 
         .station-title { 
             margin: 5px 0; 
             font-size: 22px; 
-            color: #ffffff; 
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Memastikan teks sangat jelas terbaca di atas efek kaca */
+            color: #e0e0e0; 
         } 
         .station-sub { 
             margin: 0 0 15px 0; 
             font-size: 13px; 
-            color: #cccccc; 
+            color: #888; 
         } 
         /* Pembungkus Frame: Ukuran Lapang Agar Player Streamy Tampil Utuh */ 
         .iframe-container { 
@@ -87,7 +78,6 @@
             background: #151515; 
             border: 1px solid #2d2d2d; 
             position: relative; 
-            box-shadow: inset 0 4px 10px rgba(0,0,0,0.5); /* Dimensi bayangan dalam agar frame tampak tenggelam rapi */
         } 
         /* Mengunci Pergerakan di Dalam Iframe */ 
         iframe { 
