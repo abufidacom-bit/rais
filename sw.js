@@ -1,29 +1,29 @@
-const CACHE_NAME = 'ri-sragen-cache-v1';
+const CACHE_NAME = 'radio-cache-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/icon-192.png',
-  '/assets/icon-512.png'
+  'index.html',
+  'manifest.json',
+  'icon-192.png',
+  'icon-512.png'
 ];
 
-self.addEventListener('install', e => {
+// Menyimpan aset dasar ke dalam memori cache
+self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+    caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS);
     })
   );
 });
 
-self.addEventListener('fetch', e => {
-  // Proteksi memori: Lewati proses caching untuk server streaming port 9210
-  if (e.request.url.includes(':9210')) {
-    return; 
+// Mengambil data dari cache agar aplikasi terbuka instan
+self.addEventListener('fetch', (e) => {
+  // Sistem tidak akan menyimpan audio streaming ke cache karena durasinya tanpa akhir
+  if (e.request.url.includes('stream') || e.request.url.includes('live')) {
+    return;
   }
-  
   e.respondWith(
-    caches.match(e.request).then(cachedResponse => {
-      return cachedResponse || fetch(e.request);
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
     })
   );
 });
