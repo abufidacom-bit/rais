@@ -2,68 +2,104 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Islam Sragen</title>
-    
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Warna Tema Bilah Status / Status Bar HP -->
     <meta name="theme-color" content="#1b4d3e">
-    
-    <!-- Pengaturan Khusus Apple iOS PWA Standalone Mode -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RI Sragen">
-
     <style>
-        html, body {
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #121212; /* Selaras dengan warna dasar dark mode Streamy */
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        
-        /* Kontainer Utama Pengisi Layar Penuh */
-        .app-container {
+        .player-card {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 320px;
+            border-top: 5px solid #1b4d3e;
+            box-sizing: border-box;
+        }
+        .logo-placeholder {
+            width: 90px;
+            height: 90px;
+            background: #1b4d3e;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
+        }
+        .station-title {
+            margin: 5px 0;
+            font-size: 22px;
+            color: #e0e0e0;
+        }
+        .station-sub {
+            margin: 0 0 15px 0;
+            font-size: 13px;
+            color: #888;
+        }
+        /* Pembungkus Frame Audio Resmi Streamy */
+        .iframe-container {
             width: 100%;
-            height: 100%;
-            border: none;
-            margin: 0;
-            padding: 0;
+            height: 140px; /* Disesuaikan agar pas dengan tinggi pemutar bawaan Streamy */
+            border-radius: 12px;
+            overflow: hidden;
+            background: #151515;
+            border: 1px solid #2d2d2d;
         }
-
-        /* Konfigurasi Frame Pembungkus */
         iframe {
             width: 100%;
             height: 100%;
             border: none;
-            display: block;
+        }
+        .status { 
+            margin-top: 15px; 
+            color: #a0a0a0; 
+            font-size: 13px; 
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <!-- Menyematkan Pemutar HTTPS Resmi Streamy Secara Utuh & Penuh -->
-    <iframe 
-        src="https://streamy1.radioislam.my.id/player/sragen-s-station/" 
-        allow="autoplay; encrypted-media; clipboard-write;"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-        title="Radio Islam Sragen Live Player">
-    </iframe>
+<div class="player-card">
+    <div class="logo-placeholder">🕌</div>
+    <h2 class="station-title">Radio Islam Sragen</h2>
+    <p class="station-sub">sragen.radioislam.my.id</p>
+    
+    <!-- Menyematkan Pemutar HTTPS Resmi Streamy langsung di dalam PWA -->
+    <div class="iframe-container">
+        <iframe 
+            src="https://streamy1.radioislam.my.id/player/sragen-s-station/" 
+            allow="autoplay; encrypted-media" 
+            title="Streamy Player">
+        </iframe>
+    </div>
+    
+    <p class="status">Gunakan tombol putar di atas untuk mendengarkan</p>
 </div>
 
 <script>
-    // MENDAFTARKAN SERVICE WORKER AGAR TOMBOL INSTALASI PWA MUNCUL OLEH BROWSER
+    // DAFTARKAN SERVICE WORKER PWA AGAR BISA DIINSTAL DI HP
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Kerangka Full Frame Aktif!'))
-                .catch(err => console.log('PWA Pendaftaran Gagal:', err));
+                .then(reg => console.log('PWA Radio Islam Sragen Sukses Aktif!'))
+                .catch(err => console.log('PWA Gagal:', err));
         });
     }
 </script>
