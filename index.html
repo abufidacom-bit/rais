@@ -29,6 +29,8 @@
             width: 290px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
+            position: relative;
+            z-index: 2;
         }
         .logo-placeholder {
             width: 120px;
@@ -78,15 +80,21 @@
             font-style: italic;
         }
         
-        /* TRIK UTAMA: Menyembunyikan player asli Streamy tak terlihat di latar belakang */
+        /* SOLUSI TOTAL: Mengunci iframe agar benar-benar tidak terlihat oleh mata dan tidak memakan ruang */
         .hidden-player {
             position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
+            top: -9999px;
+            left: -9999px;
+            width: 0px;
+            height: 0px;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+        }
+        .hidden-player iframe {
+            width: 0px;
+            height: 0px;
             border: 0;
         }
     </style>
@@ -104,7 +112,7 @@
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
-<!-- Iframe yang bekerja di balik layar tanpa mengganggu pemandangan pendengar -->
+<!-- Iframe yang dibuang jauh keluar dari area layar visual HP/Komputer -->
 <div class="hidden-player">
     <iframe 
         id="streamy-frame"
@@ -117,31 +125,30 @@
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
     const frame = document.getElementById('streamy-frame');
+    const STREAM_URL = "https://radioislam.my.id";
     let isPlaying = false;
 
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
             statusText.innerText = "Menghubungkan suara...";
             
-            // Trik merefresh ulang src iframe untuk membuang delay/buffer audio lama (real-time stream)
-            const currentSrc = frame.src;
-            frame.src = currentSrc;
+            // Masukkan kembali url asli ke iframe tersembunyi agar mematangkan pemutaran
+            frame.src = STREAM_URL;
             
-            // Memberi jeda tipis agar server memuat data, lalu ubah status tombol depan
             setTimeout(() => {
                 isPlaying = true;
                 playBtn.innerText = "HENTIKAN";
-                playBtn.style.background = "#b33939"; // Berubah warna merah hangat tanda live
+                playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat
                 statusText.innerText = "Memutar Audio Streaming Live";
-            }, 800);
+            }, 1000); // Jeda 1 detik agar pemutar Streamy Panel siap
             
         } else {
-            // Hentikan penarikan data internet dan matikan suara dengan mengosongkan alamat iframe
+            // Putus aliran data internet dengan mengosongkan isi halaman di latar belakang
             frame.src = "about:blank";
             
             isPlaying = false;
             playBtn.innerText = "PUTAR";
-            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau gelap estetik
+            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau semula
             statusText.innerText = "Streaming dihentikan";
         }
     });
@@ -150,7 +157,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Radio Islam Sragen Aktif & Bersih!'))
+                .then(reg => console.log('PWA Radio Islam Sragen Bersih Maksimal!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
