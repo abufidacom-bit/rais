@@ -6,7 +6,10 @@
     <title>Radio Islam Sragen</title> 
     <!-- Hubungkan ke file Manifest PWA --> 
     <link rel="manifest" href="manifest.json"> 
-    <meta name="theme-color" content="#1b4d3e"> 
+    
+    <!-- MODIFIKASI: Mengubah warna tema PWA di Android menjadi Putih -->
+    <meta name="theme-color" content="#ffffff"> 
+    
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
@@ -40,21 +43,29 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
             width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
-            border-top: 5px solid #1b4d3e; 
+            
+            /* MODIFIKASI: Mengubah garis atas kartu pemutar menjadi Putih */
+            border-top: 5px solid #ffffff; 
+            
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
         .logo-placeholder { 
             width: 80px; 
             height: 80px; 
-            background: #1b4d3e; 
+            
+            /* MODIFIKASI: Mengubah latar belakang lingkaran logo menjadi Putih */
+            background: #ffffff; 
+            
             border-radius: 50%; 
             margin: 0 auto 12px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             font-size: 32px; 
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+            
+            /* MODIFIKASI: Menyesuaikan efek bayangan lingkaran agar menggunakan cahaya Putih transparan */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); 
         } 
         .station-title { 
             margin: 5px 0; 
