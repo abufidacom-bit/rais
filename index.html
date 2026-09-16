@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <style>
-        /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */
+        /* KUNCI TOTAL LAYAR UTAMA */
         html, body {
             margin: 0;
             padding: 0;
@@ -26,7 +26,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; 
-            padding-top: 6vh; 
+            padding-top: 15vh; /* Mengangkat posisi kartu lebih naik ke atas layar */
             overflow: hidden !important; 
             position: fixed;  
             touch-action: none; 
@@ -34,117 +34,148 @@
             box-sizing: border-box;
         }
 
-        /* Kartu Pemutar Terkunci Presisi */
+        /* Kartu Pemutar Kustom Mewah */
         .player-card {
             background: #1e1e1e;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            padding: 35px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             text-align: center;
-            width: 320px;
+            width: 300px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none; 
         }
 
         .logo-placeholder {
-            width: 90px;
-            height: 90px;
+            width: 110px;
+            height: 110px;
             background: #1b4d3e;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 35px;
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
+            font-size: 45px;
+            box-shadow: 0 0 25px rgba(27, 77, 62, 0.5);
         }
 
         .station-title {
-            margin: 5px 0;
-            font-size: 22px;
-            color: #e0e0e0;
+            margin: 10px 0 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         .station-sub {
-            margin: 0 0 15px 0;
-            font-size: 13px;
+            margin: 0 0 35px 0;
+            font-size: 14px;
             color: #888;
+            letter-spacing: 0.5px;
         }
         
-        /* Pembungkus Frame: Ukuran Pas Tanpa Scroll */
-        .iframe-container {
-            width: 100%;
-            height: 195px; 
-            border-radius: 12px;
-            overflow: hidden !important; 
-            background: #151515;
-            border: 1px solid #2d2d2d;
-            position: relative;
-        }
-        
-        /* Mengunci Pergerakan di Dalam Iframe */
-        iframe {
-            width: 100%;
-            height: 100%;
+        /* Tombol Putar Kustom Besar */
+        .btn-play {
+            background: #1b4d3e;
             border: none;
-            overflow: hidden !important; 
-            touch-action: none; 
+            color: white;
+            padding: 16px 0;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            box-shadow: 0 6px 20px rgba(27, 77, 62, 0.3);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .btn-play:hover { 
+            background: #256b57; 
+            transform: scale(1.02);
+        }
+
+        .btn-play:active {
+            transform: scale(0.98);
         }
         
         .status { 
-            margin-top: 15px; 
+            margin-top: 25px; 
             color: #a0a0a0; 
-            font-size: 13px; 
+            font-size: 14px; 
             font-style: italic;
-            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
 
 <div class="player-card">
-    <div class="logo-placeholder">🕌</div>
+    <div class="logo-placeholder">M</div>
     <h2 class="station-title">Radio Islam Sragen</h2>
-    <p class="station-sub">sragen.radioislam.my.id</p>
+    <p class="station-sub">LIVE STREAMING</p>
     
-    <!-- Tautkan langsung ke player spesifik Sragen -->
-    <div class="iframe-container">
-        <iframe 
-            src="https://radioislam.my.id" 
-            allow="autoplay; encrypted-media" 
-            scrolling="no" 
-            title="Streamy Player">
-        </iframe>
-    </div>
+    <!-- Objek Audio Tersembunyi -->
+    <audio id="audio-player" crossorigin="anonymous" preload="none"></audio>
     
-    <p class="status">Gunakan tombol putar di atas untuk mendengarkan</p>
+    <!-- Tombol Kontrol Utama -->
+    <button class="btn-play" id="play-btn">PUTAR</button>
+    
+    <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
 <script>
-    // 1. Mematikan overscroll jari
+    // URL STREAMING HTTPS DIREK TANPA PORT YANG DIKUNCI KHUSUS SRAGEN
+    const STREAM_URL = "https://radioislam.my.id";
+    
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const statusText = document.getElementById('status-text');
+    let isPlaying = false;
+
+    playBtn.addEventListener('click', () => {
+        if (!isPlaying) {
+            statusText.innerText = "Menghubungkan ke server...";
+            
+            // Menyuntikkan URL streaming segar saat tombol diklik oleh jari user
+            audio.src = STREAM_URL + "?cb=" + Date.now();
+            audio.load();
+            
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = "HENTIKAN";
+                    playBtn.style.background = "#b33939"; // Berubah merah saat live
+                    playBtn.style.boxShadow = "0 6px 20px rgba(179, 57, 57, 0.3)";
+                    statusText.innerText = "Memutar Audio Streaming Live";
+                })
+                .catch(err => {
+                    statusText.innerText = "Gagal memuat siaran. Coba klik kembali.";
+                    console.error("Error Audio:", err);
+                });
+        } else {
+            audio.pause();
+            audio.removeAttribute('src'); // Memutus total pemakaian kuota internet latar belakang
+            audio.load();
+            
+            isPlaying = false;
+            playBtn.innerText = "PUTAR";
+            playBtn.style.background = "#1b4d3e"; // Kembali hijau semula
+            playBtn.style.boxShadow = "0 6px 20px rgba(27, 77, 62, 0.3)";
+            statusText.innerText = "Streaming dihentikan";
+        }
+    });
+
+    // Mematikan gerakan geser layar HP
     document.addEventListener('touchmove', function(e) {
         if (e.scale !== 1) { e.preventDefault(); }
     }, { passive: false });
 
-    // 2. SKRIP PENGHANCUR CACHE AGRESIF (Memaksa hapus memori web lama RII)
+    // Registrasi Service Worker PWA dengan pembersihan cache berkala
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-                // Menghapus service worker lama agar browser mendownload ulang index.html terbaru
-                registration.unregister().then(function(boolean) {
-                    if(boolean) {
-                        console.log('Cache lama dibersihkan, memuat ulang player...');
-                        window.location.reload(true); // Paksa reload dari server
-                    }
-                });
-            }
-        });
-
-        // Mendaftarkan ulang Service Worker yang bersih
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Segar Aktif!'))
+                .then(reg => console.log('PWA Murni Aktif Semesta!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
