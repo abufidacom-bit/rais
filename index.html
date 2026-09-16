@@ -2,148 +2,63 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Radio Islam Sragen</title>
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1b4d3e">
+    
+    <!-- Pengaturan Apple Mobile Web App -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RI Sragen">
+
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        html, body {
             margin: 0;
-            overflow: hidden;
-        }
-        .player-card {
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            text-align: center;
-            width: 290px;
-            border-top: 5px solid #1b4d3e;
-            box-sizing: border-box;
-        }
-        .logo-placeholder {
-            width: 120px;
-            height: 120px;
-            background: #1b4d3e;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.5);
-        }
-        .station-title {
-            margin: 10px 0 5px 0;
-            font-size: 22px;
-            color: #e0e0e0;
-        }
-        .station-sub {
-            margin: 0 0 25px 0;
-            font-size: 14px;
-            color: #888;
-        }
-        .btn-play {
-            background: #1b4d3e;
-            border: none;
-            color: white;
-            padding: 14px 40px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            padding: 0;
             width: 100%;
-            box-sizing: border-box;
+            height: 100%;
+            background-color: #121212;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        .btn-play:hover { 
-            background: #256b57; 
-            transform: scale(1.03);
+        
+        /* Frame Utama Mengisi Seluruh Layar PWA secara Elegan */
+        .app-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0;
+            padding: 0;
         }
-        .status { 
-            margin-top: 25px; 
-            color: #a0a0a0; 
-            font-size: 14px; 
-            font-style: italic;
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-<div class="player-card">
-    <div class="logo-placeholder">🕌</div>
-    <h2 class="station-title">Radio Islam Sragen</h2>
-    <p class="station-sub">sragen.radioislam.my.id</p>
-    
-    <!-- Elemen Audio HTML5 Asli dengan Atribut Keamanan Longgar -->
-    <audio id="audio-element" crossorigin="anonymous" preload="none"></audio>
-    
-    <!-- Tombol depan kustom -->
-    <button class="btn-play" id="play-btn">PUTAR</button>
-    
-    <p class="status" id="status-text">Siap mendengarkan kajian</p>
+<div class="app-container">
+    <!-- Memuat Halaman Enkripsi HTTPS Resmi Streamy Anda Secara Penuh -->
+    <iframe 
+        src="https://radioislam.my.id" 
+        allow="autoplay; encrypted-media; clipboard-write"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+        title="Radio Islam Sragen Live Player">
+    </iframe>
 </div>
 
 <script>
-    // JALUR OUTPUT STREAMING AUDIO UTAMA BER-HTTPS DARI SERVER STREAMY
-    // Kita menembak langsung ke port penyiaran 8000 dengan endpoint /stream
-    const SECURE_AUDIO_URL = "https://radioislam.my.id";
-    
-    const audio = document.getElementById('audio-element');
-    const playBtn = document.getElementById('play-btn');
-    const statusText = document.getElementById('status-text');
-    let isPlaying = false;
-
-    playBtn.addEventListener('click', () => {
-        if (!isPlaying) {
-            statusText.innerText = "Menghubungkan ke server Sragen...";
-            
-            // Trik Bypass: Suntikkan URL segar lengkap dengan penangkal cache (?t=) tepat saat tombol diklik
-            audio.src = SECURE_AUDIO_URL + "?t=" + Date.now();
-            audio.load();
-            
-            // Eksekusi pemutaran suara yang dipicu langsung oleh ketukan jari user (Direstui Browser)
-            audio.play()
-                .then(() => {
-                    isPlaying = true;
-                    playBtn.innerText = "HENTIKAN";
-                    playBtn.style.background = "#b33939"; // Merah hangat tanda Live mengudara
-                    statusText.innerText = "Memutar Audio Streaming Live";
-                })
-                .catch(err => {
-                    statusText.innerText = "Koneksi sibuk. Silakan coba klik kembali.";
-                    console.error("Gagal memuat:", err);
-                });
-            
-        } else {
-            // Hentikan suara dan potong konsumsi data internet latar belakang secara total
-            audio.pause();
-            audio.removeAttribute('src'); 
-            audio.load();
-            
-            isPlaying = false;
-            playBtn.innerText = "PUTAR";
-            playBtn.style.background = "#1b4d3e"; // Kembali ke hijau estetik semula
-            statusText.innerText = "Streaming dihentikan";
-        }
-    });
-
-    // DAFTARKAN SERVICE WORKER PWA
+    // DAFTARKAN SERVICE WORKER PWA AGAR EMULASI INSTALASI BERJALAN
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Siap Mengudara!'))
+                .then(reg => console.log('PWA Wrapper Radio Islam Sragen Aktif Sempurna!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
