@@ -1,21 +1,54 @@
 {
-  "short_name": "RI Sragen",
-  "name": "Radio Islam Sragen",
+  "short_name": "IkhwahRadio",
+  "name": "Ikhwah Plupuh Radio Streaming",
   "icons": [
     {
-      "src": "assets/icon-192.png",
+      "src": "icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "assets/icon-512.png",
+      "src": "icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/index.html",
-  "background_color": "#0F766E",
-  "theme_color": "#0F766E",
+  "start_url": "index.html",
+  "background_color": "#121212",
   "display": "standalone",
+  "theme_color": "#121212",
   "orientation": "portrait"
 }
+Gunakan kode dengan hati-hati.
+📋 File 3: Mesin Latar Belakang PWA (sw.js)
+Buat file terakhir, beri nama sw.js, lalu masukkan kode berikut. Skrip ini bekerja di latar belakang browser agar aplikasi terasa cepat saat dibuka kembali.
+javascript
+const CACHE_NAME = 'radio-cache-v1';
+const ASSETS = [
+  'index.html',
+  'manifest.json',
+  'icon-192.png',
+  'icon-512.png'
+];
+
+// Menyimpan aset dasar ke dalam memori cache
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    })
+  );
+});
+
+// Mengambil data dari cache agar aplikasi terbuka instan
+self.addEventListener('fetch', (e) => {
+  // Sistem tidak akan menyimpan audio streaming ke cache karena durasinya tanpa akhir
+  if (e.request.url.includes('stream') || e.request.url.includes('live')) {
+    return;
+  }
+  e.respondWith(
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
+    })
+  );
+});
