@@ -89,52 +89,53 @@
 </div>
 
 <script>
-    // URL STREAMING BERDASARKAN SERVER RADIO ISLAM SRAGEN 
-    const BASE_STREAM_URL = "http://radioislam.my.id"; 
-    
-    const audio = new Audio();
-    audio.crossOrigin = "anonymous";
-    const playBtn = document.getElementById('play-btn');
-    const statusText = document.getElementById('status-text');
-    let isPlaying = false;
+   // URL STREAMING YANG SUDAH DISESUAIKAN UNTUK PEMUTAR AUDIO PWA
+const BASE_STREAM_URL = "http://streamy1.radioislam.my.id:9210/;stream.mp3"; 
 
-    playBtn.addEventListener('click', () => {
-        if (!isPlaying) {
-            statusText.innerText = "Menghubungkan ke server...";
-            
-            // Bypass mixed-content dan delay audio lama menggunakan generator waktu unik dinamis
-            audio.src = BASE_STREAM_URL + "?cb=" + Date.now();
-            audio.load();
-            
-            audio.play()
-                .then(() => {
-                    isPlaying = true;
-                    playBtn.innerText = "HENTIKAN";
-                    playBtn.style.background = "#b33939";
-                    statusText.innerText = "Memutar Audio Streaming Live";
-                })
-                .catch(err => {
-                    statusText.innerText = "Gagal memuat stream (Cek koneksi/protokol HTTPS)";
-                    console.error("Kesalahan Streaming Audio:", err);
-                });
-        } else {
-            audio.pause();
-            audio.src = ""; // Mengosongkan buffer pemutaran untuk menghemat kuota pendengar
-            isPlaying = false;
-            playBtn.innerText = "PUTAR";
-            playBtn.style.background = "#1b4d3e";
-            statusText.innerText = "Streaming dihentikan";
-        }
-    });
+const audio = new Audio();
+audio.crossOrigin = "anonymous";
+const playBtn = document.getElementById('play-btn');
+const statusText = document.getElementById('status-text');
+let isPlaying = false;
 
-    // DAFTARKAN SERVICE WORKER PWA
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Radio Islam Sragen Aktif!'))
-                .catch(err => console.log('PWA Gagal:', err));
-        });
+playBtn.addEventListener('click', () => {
+    if (!isPlaying) {
+        statusText.innerText = "Menghubungkan ke server...";
+        
+        // Memakai parameter waktu unik (?cb=) agar browser tidak memblokir protokol HTTP di halaman HTTPS
+        audio.src = BASE_STREAM_URL + "?cb=" + Date.now();
+        audio.load();
+        
+        audio.play()
+            .then(() => {
+                isPlaying = true;
+                playBtn.innerText = "HENTIKAN";
+                playBtn.style.background = "#b33939";
+                statusText.innerText = "Memutar Audio Streaming Live";
+            })
+            .catch(err => {
+                statusText.innerText = "Gagal memuat stream (Cek koneksi/protokol HTTPS)";
+                console.error("Kesalahan Streaming Audio:", err);
+            });
+    } else {
+        audio.pause();
+        audio.src = ""; // Mengosongkan buffer pemutaran untuk menghemat kuota pendengar
+        isPlaying = false;
+        playBtn.innerText = "PUTAR";
+        playBtn.style.background = "#1b4d3e";
+        statusText.innerText = "Streaming dihentikan";
     }
+});
+
+// DAFTARKAN SERVICE WORKER PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('PWA Radio Islam Sragen Aktif!'))
+            .catch(err => console.log('PWA Gagal:', err));
+    });
+}
+
 </script>
 </body>
 </html>
