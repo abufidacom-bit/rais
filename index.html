@@ -28,7 +28,7 @@
             
             /* Mengatur perataan agar posisi terangkat aman ke bagian atas layar HP */
             justify-content: flex-start; 
-            padding-top: 6vh; 
+            padding-top: 4vh; 
             
             overflow: hidden !important; /* Menghapus bar scroll secara mutlak */
             position: fixed;  /* Mengunci posisi layar dari efek bounce elastis iOS */
@@ -37,14 +37,14 @@
             box-sizing: border-box;
         }
 
-        /* Kartu Pemutar Terkunci Presisi */
+        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */
         .player-card {
             background: #1e1e1e;
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             text-align: center;
-            width: 340px; 
+            width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */
@@ -75,10 +75,10 @@
             color: #888;
         }
         
-        /* PERUBAHAN: Ukuran kontainer diperkecil/diciutkan menjadi 230px agar lebih ringkas */
+        /* SOLUSI UTAMA: Pembungkus Frame Dibuat Lebih Besar Agar Player Streamy Tampil Utuh */
         .iframe-container {
             width: 100%;
-            height: 230px; 
+            height: 320px; /* Ditingkatkan menjadi 320px agar sistem sensitif Streamy tidak pecah */
             border-radius: 12px;
             overflow: hidden !important; /* Blokir bar scroll kontainer */
             background: #151515;
@@ -94,24 +94,34 @@
             overflow: hidden !important; /* Blokir bar scroll halaman target */
             touch-action: none; /* Mematikan geser/scroll di dalam area iframe */
         }
+        
+        .status { 
+            margin-top: 15px; 
+            color: #a0a0a0; 
+            font-size: 13px; 
+            font-style: italic;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="player-card">
-    <div class="logo-placeholder">Dimasukkan berkas logo jika ada assets/icon-192.png</div>
+    <div class="logo-placeholder">🕌</div>
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
     
-    <!-- Wadah Iframe yang Sudah Diciutkan Lebih Ringkas -->
+    <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen -->
     <div class="iframe-container">
         <iframe 
-            src="https://radioislam.my.id" 
+            src="https://streamy1.radioislam.my.id/player/sragen-s-station/" 
             allow="autoplay; encrypted-media" 
             scrolling="no" 
             title="Streamy Player">
         </iframe>
     </div>
+    
+    <p class="status">Gunakan tombol putar di atas untuk mendengarkan</p>
 </div>
 
 <script>
@@ -126,7 +136,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Ringkas Bebas Scroll Sukses di-Cache!'))
+                .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
