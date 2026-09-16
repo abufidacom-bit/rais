@@ -2,13 +2,16 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Radio Islam Sragen</title>
+    
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Warna Tema Bilah Status / Status Bar HP -->
     <meta name="theme-color" content="#1b4d3e">
     
-    <!-- Pengaturan Khusus Apple iOS Mobile Web App -->
+    <!-- Pengaturan Khusus Apple iOS PWA Standalone Mode -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RI Sragen">
@@ -19,12 +22,12 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #121212;
+            background-color: #121212; /* Selaras dengan warna dasar dark mode Streamy */
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         
-        /* Pembungkus Frame Utama Mengisi Seluruh Layar PWA */
+        /* Kontainer Utama Pengisi Layar Penuh */
         .app-container {
             width: 100%;
             height: 100%;
@@ -33,6 +36,7 @@
             padding: 0;
         }
 
+        /* Konfigurasi Frame Pembungkus */
         iframe {
             width: 100%;
             height: 100%;
@@ -44,22 +48,22 @@
 <body>
 
 <div class="app-container">
-    <!-- Memuat Halaman HTTPS Resmi Streamy Anda Secara Penuh -->
+    <!-- Menyematkan Pemutar HTTPS Resmi Streamy Secara Utuh & Penuh -->
     <iframe 
-        src="https://radioislam.my.id" 
-        allow="autoplay; encrypted-media; clipboard-write"
+        src="https://streamy1.radioislam.my.id/player/sragen-s-station/" 
+        allow="autoplay; encrypted-media; clipboard-write;"
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
         title="Radio Islam Sragen Live Player">
     </iframe>
 </div>
 
 <script>
-    // DAFTARKAN SERVICE WORKER PWA AGAR BISA DIINSTAL DI HP
+    // MENDAFTARKAN SERVICE WORKER AGAR TOMBOL INSTALASI PWA MUNCUL OLEH BROWSER
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Frame Radio Islam Sragen Aktif Sempurna!'))
-                .catch(err => console.log('PWA Gagal:', err));
+                .then(reg => console.log('PWA Kerangka Full Frame Aktif!'))
+                .catch(err => console.log('PWA Pendaftaran Gagal:', err));
         });
     }
 </script>
