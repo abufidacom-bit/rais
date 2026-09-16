@@ -62,6 +62,8 @@
             transition: 0.3s;
             letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            box-sizing: border-box;
         }
         .btn-play:hover { 
             background: #256b57; 
@@ -81,15 +83,14 @@
     <!-- Ikon visual pengganti sebelum ada gambar -->
     <div class="logo-placeholder">🕌</div>
     <h2 class="station-title">Radio Islam Sragen</h2>
-    <p class="station-sub">sragen.radioislam.my.id</p>
+    <p class="station-sub">streamy1.radioislam.my.id:9210</p>
     <button class="btn-play" id="play-btn">PUTAR</button>
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
 <script>
-    // URL STREAMING SHOUTCAST ANDA 
-    // Catatan: Jika memutar di GitHub Pages gagal, ubah http:// menjadi https:// di bawah ini
-    const STREAM_URL = "http://sragen.radioislam.my.id:11252/;"; 
+    // URL STREAMING BERDASARKAN SERVER RADIO ISLAM SRAGEN 
+    const BASE_STREAM_URL = "http://radioislam.my.id"; 
     
     const audio = new Audio();
     audio.crossOrigin = "anonymous";
@@ -100,7 +101,11 @@
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
             statusText.innerText = "Menghubungkan ke server...";
-            audio.src = STREAM_URL;
+            
+            // Bypass mixed-content dan delay audio lama menggunakan generator waktu unik dinamis
+            audio.src = BASE_STREAM_URL + "?cb=" + Date.now();
+            audio.load();
+            
             audio.play()
                 .then(() => {
                     isPlaying = true;
@@ -110,11 +115,11 @@
                 })
                 .catch(err => {
                     statusText.innerText = "Gagal memuat stream (Cek koneksi/protokol HTTPS)";
-                    console.error(err);
+                    console.error("Kesalahan Streaming Audio:", err);
                 });
         } else {
             audio.pause();
-            audio.src = ""; // Memutus data agar hemat kuota pendengar
+            audio.src = ""; // Mengosongkan buffer pemutaran untuk menghemat kuota pendengar
             isPlaying = false;
             playBtn.innerText = "PUTAR";
             playBtn.style.background = "#1b4d3e";
