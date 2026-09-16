@@ -44,17 +44,16 @@
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
-        .logo-placeholder { 
+        /* Pemanggilan Gambar Logo Resmi */
+        .logo-image { 
             width: 80px; 
             height: 80px; 
-            background: #1b4d3e; 
             border-radius: 50%; 
             margin: 0 auto 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 32px; 
+            display: block;
+            object-fit: cover;
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+            border: 2px solid #1b4d3e;
         } 
         .station-title { 
             margin: 5px 0; 
@@ -88,12 +87,13 @@
 </head>
 <body>
     <div class="player-card"> 
-        <div class="logo-placeholder">🇲🇨</div> 
+        <!-- Memanggil gambar logo kustom milik Anda -->
+        <img src="logo.png" alt="Logo Radio Islam Sragen" class="logo-image">
         <h2 class="station-title">Radio Islam Sragen</h2> 
         <p class="station-sub">sragen.radioislam.my.id</p> 
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
         <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
@@ -107,7 +107,7 @@
         if ('serviceWorker' in navigator) { 
             window.addEventListener('load', () => { 
                 navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!')) 
+                    .then(reg => console.log('PWA dengan Logo Resmi Sukses Diaktifkan!'))
                     .catch(err => console.log('PWA Gagal:', err)); 
             }); 
         }
