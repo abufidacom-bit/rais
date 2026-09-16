@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rii-cache-v1';
+const CACHE_NAME = 'ri-sragen-cache-v1';
 const ASSETS = [
   '/',
   '/index.html',
@@ -7,7 +7,6 @@ const ASSETS = [
   '/assets/icon-512.png'
 ];
 
-// Tahap Install Aset Tetap
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -16,9 +15,8 @@ self.addEventListener('install', e => {
   );
 });
 
-// Mengambil Aset dari Cache (Kecuali Data Audio Server)
 self.addEventListener('fetch', e => {
-  // Abaikan request streaming audio port 9210 dari sistem caching agar tidak crash
+  // Proteksi memori: Lewati proses caching untuk server streaming port 9210
   if (e.request.url.includes(':9210')) {
     return; 
   }
