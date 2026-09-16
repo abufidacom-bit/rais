@@ -69,15 +69,15 @@
         /* Pembungkus Frame: Ukuran Lapang dengan Padding Dalam */ 
         .iframe-container { 
             width: 100%; 
-            height: 320px; /* Dipertahankan 320px agar sistem sensitif Streamy tidak pecah */ 
+            height: 320px; /* Dipertahankan 320px agar sistem sensitif Streamy tidak percah */ 
             border-radius: 12px; 
             overflow: hidden !important; /* Blokir bar scroll kontainer */ 
             background: #151515; 
             border: 1px solid #2d2d2d; 
             position: relative; 
             
-            /* MODIFIKASI: Menciutkan frame dari Atas (15px), Kanan-Kiri (15px), dan Bawah (0px) */
-            padding: 15px 15px 0px 15px; 
+            /* MODIFIKASI: Mengatur padding atas=25px, kanan=25px, bawah=0px, kiri=25px */
+            padding: 25px 25px 0px 25px; 
             box-sizing: border-box; 
         } 
         /* Mengunci Pergerakan di Dalam Iframe */ 
@@ -97,7 +97,7 @@
         <p class="station-sub">sragen.radioislam.my.id</p> 
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
         <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
