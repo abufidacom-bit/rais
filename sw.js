@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radio-islam-sragen-v15';
+const CACHE_NAME = 'radio-islam-sragen-v20';
 const ASSETS = [
   'index.html',
   'manifest.json',
