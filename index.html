@@ -17,8 +17,7 @@
             padding: 0; 
             width: 100%; 
             height: 100%; 
-            /* MODIFIKASI: Mengubah latar belakang menjadi Hijau Muda Segar dengan Gradasi */
-            background: linear-gradient(135deg, #a7f3d0 0%, #10b981 100%); 
+            background-color: #121212; 
             color: #ffffff; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             display: flex; 
@@ -33,19 +32,15 @@
             user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */ 
             box-sizing: border-box; 
         } 
-        /* Kartu Pemutar Terkunci Presisi & Diubah Menjadi Glassmorphism Putih Bening */ 
+        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */ 
         .player-card { 
-            /* MODIFIKASI: Mengunci efek kaca putih transparan bening di bagian depan */
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(25px); 
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            
+            background: rgba(255, 255, 255, 0.1); /* MODIFIKASI: Mengubah latar menjadi putih transparan bening */
+            backdrop-filter: blur(20px); /* MODIFIKASI: Menambahkan efek kaca es buram */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* MODIFIKASI: Menambahkan garis tepi tipis semi-kaca */
             padding: 25px; 
             border-radius: 20px; 
-            /* Memberikan bayangan gelap lembut agar kartu kontras di atas latar hijau muda */
-            box-shadow: 0 15px 35px rgba(6, 78, 59, 0.25),
-                        inset 0 1px 2px rgba(255, 255, 255, 0.4); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
             width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
             border-top: 5px solid #1b4d3e; 
@@ -67,16 +62,12 @@
         .station-title { 
             margin: 5px 0; 
             font-size: 22px; 
-            color: #ffffff; 
-            font-weight: bold;
-            /* Memberikan bayangan teks tipis agar tulisan putih tetap terbaca tajam */
-            text-shadow: 0 1px 3px rgba(6, 78, 59, 0.5);
+            color: #e0e0e0; 
         } 
         .station-sub { 
             margin: 0 0 15px 0; 
             font-size: 13px; 
-            color: #064e3b; /* Diubah menjadi hijau tua agar kontras dengan efek kaca putih */
-            font-weight: 500;
+            color: #888; 
         } 
         /* Pembungkus Frame: Ukuran Lapang Agar Player Streamy Tampil Utuh */ 
         .iframe-container { 
@@ -87,7 +78,6 @@
             background: #151515; 
             border: 1px solid #2d2d2d; 
             position: relative; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         } 
         /* Mengunci Pergerakan di Dalam Iframe */ 
         iframe { 
@@ -106,7 +96,7 @@
         <p class="station-sub">sragen.radioislam.my.id</p> 
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
         <div class="iframe-container"> 
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
@@ -120,7 +110,7 @@
         if ('serviceWorker' in navigator) { 
             window.addEventListener('load', () => { 
                 navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Tema Hijau Kaca Sukses Diaktifkan!')) 
+                    .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!')) 
                     .catch(err => console.log('PWA Gagal:', err)); 
             }); 
         }
