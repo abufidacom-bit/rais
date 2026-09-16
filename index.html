@@ -7,6 +7,7 @@
     <!-- Hubungkan ke file Manifest PWA --> 
     <link rel="manifest" href="manifest.json"> 
     <meta name="theme-color" content="#1b4d3e"> 
+    
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
@@ -19,84 +20,41 @@
             padding: 0; 
             width: 100%; 
             height: 100%; 
-            background-color: #121212; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            /* Mengatur perataan agar posisi terangkat aman ke bagian atas layar HP */ 
-            justify-content: flex-start; 
-            padding-top: 4vh; 
+            background-color: #121212; /* Mengikuti warna dasar gelap asli Streamy */
             overflow: hidden !important; /* Menghapus bar scroll secara mutlak */ 
             position: fixed; /* Mengunci posisi layar dari efek bounce elastis iOS */ 
             touch-action: none; /* Mematikan semua gerakan geser jari pada latar belakang */ 
-            user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */ 
+            user-select: none; /* Mencegah teks terblok secara tidak sengaja */ 
             box-sizing: border-box; 
         } 
-        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */ 
-        .player-card { 
-            background: #1e1e1e; 
-            padding: 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-            text-align: center; 
-            width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
-            border-top: 5px solid #1b4d3e; 
-            box-sizing: border-box; 
-            touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
-        } 
-        .logo-image { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            margin: 0 auto 12px; 
-            display: block;
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
-            border: 2px solid #1b4d3e;
-        } 
-        .station-title { 
-            margin: 5px 0; 
-            font-size: 22px; 
-            color: #e0e0e0; 
-        } 
-        .station-sub { 
-            margin: 0 0 15px 0; 
-            font-size: 13px; 
-            color: #888; 
-        } 
-        /* Pembungkus Frame: Ukuran Lapang yang Dibiarkan Utuh Tanpa Dipotong */ 
-        .iframe-container { 
-            width: 100%; 
-            height: 320px; /* Dikunci 320px agar komponen bawaan Streamy memiliki ruang cukup dan tidak hilang */ 
-            border-radius: 12px; 
-            overflow: hidden !important; /* Blokir bar scroll kontainer */ 
-            background: #151515; 
-            border: 1px solid #2d2d2d; 
-            position: relative; 
-        } 
-        /* Mengunci Pergerakan di Dalam Iframe */ 
+        
+        /* Kontainer Utama Pengisi Layar Penuh Tanpa Jarak */
+        .app-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Memaksa Iframe Mengisi Seluruh Layar Aplikasi PWA */ 
         iframe { 
             width: 100%; 
             height: 100%; 
             border: none; 
-            overflow: hidden !important; /* Blokir bar scroll halaman target */ 
-            touch-action: none; /* Mematikan geser/scroll di dalam area iframe */ 
+            display: block;
+            overflow: hidden !important; 
         } 
     </style>
 </head>
 <body>
-    <div class="player-card"> 
-        <!-- Memanggil logo resmi icon-192.png Anda yang sudah berhasil muncul -->
-        <img src="icon-192.png" alt="Logo Radio Islam Sragen" class="logo-image" onerror="this.src='icon-512.png'">
-        <h2 class="station-title">Radio Islam Sragen</h2> 
-        <p class="station-sub">sragen.radioislam.my.id</p> 
-        <!-- Wadah Iframe Dibiarkan Utuh Sesuai Tautan Aslinya yang Berhasil --> 
-        <div class="iframe-container"> 
-            <!-- FIX UTAMA: Tautan dikembalikan murni ke link asli yang terbukti berhasil memuat audio -->
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
-        </div> 
+    <div class="app-container"> 
+        <!-- Memuat Halaman HTTPS Resmi Streamy Anda Secara Utuh Tanpa Modifikasi Parameter --> 
+        <iframe 
+            src="https://radioislam.my.id" 
+            allow="autoplay; encrypted-media" 
+            title="Radio Islam Sragen Live Player"> 
+        </iframe> 
     </div>
 
     <script> 
@@ -109,7 +67,7 @@
         if ('serviceWorker' in navigator) { 
             window.addEventListener('load', () => { 
                 navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Player Utama Mengudara Kembali!')) 
+                    .then(reg => console.log('PWA Full Wrapper Sukses Aktif!')) 
                     .catch(err => console.log('PWA Gagal:', err)); 
             }); 
         }
