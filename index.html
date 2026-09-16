@@ -3,62 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Islam Indonesia - PWA</title>
+    <title>Radio Islam Sragen - PWA</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1E3A8A">
-    <!-- Pustaka Ikon Pihak Ketiga jika diperlukan -->
+    <meta name="theme-color" content="#0F766E">
     <style>
-        body { font-family: sans-serif; background: #f3f4f6; text-align: center; padding: 20px; }
-        .player-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); max-width: 400px; margin: 40px auto; }
-        .btn { background: #1e3a8a; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-size: 18px; cursor: pointer; width: 100%; transition: 0.2s; }
-        .btn:hover { background: #1d4ed8; }
-        .status { margin-top: 15px; color: #6b7280; font-size: 14px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0fdfa; text-align: center; padding: 20px; color: #1f2937; }
+        .player-card { background: white; padding: 35px 25px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); max-width: 400px; margin: 60px auto; border: 1px solid #e5e7eb; }
+        .logo-area { font-size: 48px; margin-bottom: 10px; }
+        h2 { margin: 5px 0; color: #0f766e; font-size: 24px; }
+        .subtitle { color: #6b7280; font-size: 14px; margin-bottom: 25px; letter-spacing: 0.5px; }
+        .btn { background: #0f766e; color: white; border: none; padding: 16px 32px; border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2); }
+        .btn:hover { background: #0d9488; transform: translateY(-1px); }
+        .btn:active { transform: translateY(1px); }
+        .status { margin-top: 20px; color: #4b5563; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .indicator { width: 8px; height: 8px; border-radius: 50px; background: #9ca3af; }
+        .indicator.active { background: #10b981; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
     </style>
 </head>
 <body>
 
     <div class="player-card">
-        <h2>Radio Islam Indonesia</h2>
-        <p id="stream-info">Menyiarkan Kajian Islam Ilmiah</p>
+        <div class="logo-area">📻</div>
+        <h2>Radio Islam Sragen</h2>
+        <div class="subtitle">Menyiarkan Kajian Islam Ilmiah di Sragen & Sekitarnya</div>
         
-        <!-- Elemen Audio Utama -->
-        <audio id="riiAudio" src="http://radioislam.my.id" preload="none"></audio>
+        <!-- URL Streaming Langsung Radio Islam Sragen -->
+        <audio id="riiAudio" src="http://streamy1.radioislam.my.id:9210/;stream.mp3" preload="none"></audio>
         
         <button id="playBtn" class="btn">▶ PUTAR RADIO</button>
-        <div id="statusLabel" class="status">Status: Berhenti</div>
+        
+        <div class="status">
+            <div id="dot" class="indicator"></div>
+            <span id="statusLabel">Status: Berhenti</span>
+        </div>
     </div>
 
     <script>
         const audio = document.getElementById('riiAudio');
         const playBtn = document.getElementById('playBtn');
         const statusLabel = document.getElementById('statusLabel');
+        const dot = document.getElementById('dot');
 
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
-                // Untuk mencegah lag pemuatan cache audio lama, kita re-load source streaming-nya saat play diklik
+                // Melakukan reload alamat stream untuk membuang delay cache audio lama
                 audio.load(); 
                 audio.play()
                     .then(() => {
                         playBtn.innerText = "⏸ BERHENTIKAN";
-                        statusLabel.innerText = "Status: Menyiarkan...";
+                        statusLabel.innerText = "Status: Menyiarkan Live...";
+                        dot.classList.add('active');
                     })
                     .catch(err => {
-                        statusLabel.innerText = "Gagal memutar. Pastikan koneksi aktif.";
+                        statusLabel.innerText = "Gagal memutar siaran.";
+                        dot.classList.remove('active');
                         console.error(err);
                     });
             } else {
                 audio.pause();
                 playBtn.innerText = "▶ PUTAR RADIO";
                 statusLabel.innerText = "Status: Berhenti";
+                dot.classList.remove('active');
             }
         });
 
-        // Mendaftarkan Service Worker PWA
+        // Registrasi Service Worker PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker terdaftar!', reg.scope))
-                    .catch(err => console.log('Gagal mendaftarkan Service Worker', err));
+                    .then(reg => console.log('PWA Sragen Terdaftar!', reg.scope))
+                    .catch(err => console.log('Gagal memuat Service Worker', err));
             });
         }
     </script>
