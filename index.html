@@ -2,63 +2,161 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Islam Sragen</title>
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1b4d3e">
-    
-    <!-- Pengaturan Apple Mobile Web App -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RI Sragen">
-
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+        body {
             background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .player-card {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 290px;
+            border-top: 5px solid #1b4d3e;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            background: #1b4d3e;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.5);
+        }
+        .station-title {
+            margin: 10px 0 5px 0;
+            font-size: 22px;
+            color: #e0e0e0;
+        }
+        .station-sub {
+            margin: 0 0 25px 0;
+            font-size: 14px;
+            color: #888;
         }
         
-        /* Frame Utama Mengisi Seluruh Layar PWA secara Elegan */
-        .app-container {
+        /* Area Kontrol Interaksi Bertumpuk (Layering Area) */
+        .control-wrapper {
+            position: relative;
             width: 100%;
-            height: 100%;
-            border: none;
-            margin: 0;
-            padding: 0;
+            height: 55px;
+            margin-bottom: 10px;
         }
 
-        iframe {
+        /* STRATEGI 1: Iframe Asli diletakkan di bawah namun dibuat transparan total */
+        .iframe-bridge {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
-            display: block;
+            opacity: 0; /* Sengaja dibuat tidak terlihat, tapi fisiknya tetap aktif menerima ketukan */
+            z-index: 2;
+        }
+
+        /* STRATEGI 2: Tombol Kustom Anda diletakkan paling atas hanya sebagai pemanis visual */
+        .btn-play-display {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #1b4d3e;
+            color: white;
+            padding: 14px 0;
+            font-size: 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            z-index: 1; /* Di bawah iframe agar jari user menekan tombol asli streamy */
+            pointer-events: none; /* Mengabaikan sentuhan fisik, diteruskan ke elemen di bawahnya */
+            text-align: center;
+        }
+        
+        .status { 
+            margin-top: 15px; 
+            color: #a0a0a0; 
+            font-size: 14px; 
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <!-- Memuat Halaman Enkripsi HTTPS Resmi Streamy Anda Secara Penuh -->
-    <iframe 
-        src="https://radioislam.my.id" 
-        allow="autoplay; encrypted-media; clipboard-write"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-        title="Radio Islam Sragen Live Player">
-    </iframe>
+<div class="player-card">
+    <div class="logo-placeholder">🕌</div>
+    <h2 class="station-title">Radio Islam Sragen</h2>
+    <p class="station-sub">sragen.radioislam.my.id</p>
+    
+    <!-- Zona Interaksi Tembus Pandang -->
+    <div class="control-wrapper">
+        <!-- Tombol Pemanis Visual Kustom -->
+        <div class="btn-play-display" id="btn-visual">PUTAR RADIO</div>
+        
+        <!-- Iframe Resmi Streamy Panel yang Diincar Jari User -->
+        <iframe 
+            class="iframe-bridge"
+            id="streamy-frame"
+            src="https://radioislam.my.id" 
+            allow="autoplay; encrypted-media">
+        </iframe>
+    </div>
+    
+    <p class="status" id="status-text">Ketuk tombol di atas untuk Live Stream</p>
 </div>
 
 <script>
-    // DAFTARKAN SERVICE WORKER PWA AGAR EMULASI INSTALASI BERJALAN
+    const btnVisual = document.getElementById('btn-visual');
+    const statusText = document.getElementById('status-text');
+    const frame = document.getElementById('streamy-frame');
+    
+    let isPlaying = false;
+
+    // Memanfaatkan event window message jika iframe mengirim tanda, 
+    // namun demi kepraktisan kita lacak perubahan status berdasarkan interaksi area pembungkus
+    document.querySelector('.control-wrapper').addEventListener('click', () => {
+        if (!isPlaying) {
+            isPlaying = true;
+            btnVisual.innerText = "SEDANG LIVE";
+            btnVisual.style.background = "#b33939"; // Berubah merah hangat
+            statusText.innerText = "Memutarkan Kajian Islam Ilmiah...";
+        } else {
+            // Jika diklik kedua kali, segarkan iframe untuk mematikan suara secara total
+            frame.src = frame.src;
+            isPlaying = false;
+            btnVisual.innerText = "PUTAR RADIO";
+            btnVisual.style.background = "#1b4d3e"; // Kembali hijau gelap
+            statusText.innerText = "Streaming dihentikan";
+        }
+    });
+
+    // DAFTARKAN SERVICE WORKER PWA
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Wrapper Radio Islam Sragen Aktif Sempurna!'))
+                .then(reg => console.log('PWA Layering Mode Aktif!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
