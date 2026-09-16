@@ -29,8 +29,6 @@
             width: 290px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
-            position: relative;
-            z-index: 2;
         }
         .logo-placeholder {
             width: 120px;
@@ -79,24 +77,6 @@
             font-size: 14px; 
             font-style: italic;
         }
-        
-        /* SOLUSI TOTAL: Mengunci iframe agar benar-benar tidak terlihat oleh mata dan tidak memakan ruang */
-        .hidden-player {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-            width: 0px;
-            height: 0px;
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-            overflow: hidden;
-        }
-        .hidden-player iframe {
-            width: 0px;
-            height: 0px;
-            border: 0;
-        }
     </style>
 </head>
 <body>
@@ -106,45 +86,47 @@
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
     
-    <!-- Tombol depan kustom yang mewah dan bersih -->
+    <!-- Tombol depan kustom -->
     <button class="btn-play" id="play-btn">PUTAR</button>
     
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
-<!-- Iframe yang dibuang jauh keluar dari area layar visual HP/Komputer -->
-<div class="hidden-player">
-    <iframe 
-        id="streamy-frame"
-        src="https://radioislam.my.id" 
-        allow="autoplay; encrypted-media">
-    </iframe>
-</div>
-
 <script>
+    // URL STREAM AUDIO HTTPS AMAN DARI STREAMY PANEL ANDA
+    // Jalur port 8000/live ini adalah output audio asli ber-SSL milik server Streamy Panel RII
+    const HTTPS_STREAM_URL = "https://radioislam.my.id";
+    
+    const audio = new Audio();
+    audio.crossOrigin = "anonymous";
+    
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
-    const frame = document.getElementById('streamy-frame');
-    const STREAM_URL = "https://radioislam.my.id";
     let isPlaying = false;
 
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
-            statusText.innerText = "Menghubungkan suara...";
+            statusText.innerText = "Menghubungkan ke server Sragen...";
             
-            // Masukkan kembali url asli ke iframe tersembunyi agar mematangkan pemutaran
-            frame.src = STREAM_URL;
+            // Menggunakan pengacak cache (?cb=) agar audio selalu real-time saat tombol diklik
+            audio.src = HTTPS_STREAM_URL + "?cb=" + Date.now();
+            audio.load();
             
-            setTimeout(() => {
-                isPlaying = true;
-                playBtn.innerText = "HENTIKAN";
-                playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat
-                statusText.innerText = "Memutar Audio Streaming Live";
-            }, 1000); // Jeda 1 detik agar pemutar Streamy Panel siap
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = "HENTIKAN";
+                    playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat tanda live
+                    statusText.innerText = "Memutar Audio Streaming Live";
+                })
+                .catch(err => {
+                    statusText.innerText = "Gagal memuat stream. Silakan coba kembali.";
+                    console.error("Kesalahan Streaming Audio:", err);
+                });
             
         } else {
-            // Putus aliran data internet dengan mengosongkan isi halaman di latar belakang
-            frame.src = "about:blank";
+            audio.pause();
+            audio.src = ""; // Memutus buffer sepenuhnya agar menghentikan penarikan kuota data
             
             isPlaying = false;
             playBtn.innerText = "PUTAR";
@@ -157,7 +139,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Radio Islam Sragen Bersih Maksimal!'))
+                .then(reg => console.log('PWA Radio Islam Sragen Aktif Bersih & Lancar!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
