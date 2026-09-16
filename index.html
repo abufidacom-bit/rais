@@ -8,15 +8,15 @@
     <link rel="manifest" href="manifest.json"> 
     <meta name="theme-color" content="#1b4d3e"> 
     
-    <!-- Ikon Pelindung untuk iOS Safari -->
+    <!-- Tautan Ikon untuk Dukungan Apple iOS Safari Launcher -->
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     
-    <!-- Pengaturan Khusus PWA Standalone --> 
+    <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
     <style> 
-        /* KUNCI LAYAR UTAMA ANTI-SCROLL */ 
+        /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */ 
         html, body { 
             margin: 0; 
             padding: 0; 
@@ -28,90 +28,101 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            /* Mengatur perataan agar posisi terangkat aman ke bagian atas layar HP */ 
             justify-content: flex-start; 
-            padding-top: 5vh; /* Jarak aman vertikal atas */
-            overflow: hidden !important; 
-            position: fixed; 
-            touch-action: none; 
-            user-select: none; 
+            padding-top: 4vh; 
+            overflow: hidden !important; /* Menghapus bar scroll secara mutlak */ 
+            position: fixed; /* Mengunci posisi layar dari efek bounce elastis iOS */ 
+            touch-action: none; /* Mematikan semua gerakan geser jari pada latar belakang */ 
+            user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */ 
             box-sizing: border-box; 
         } 
-        
-        /* Kartu Pemutar yang Dikunci Dimensinya agar Mencegah Efek Full Page AzuraCast */ 
+        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */ 
         .player-card { 
             background: #1e1e1e; 
-            padding: 22px; 
+            padding: 25px; 
             border-radius: 20px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
-            width: 330px; /* Ukuran lebar dikunci rapat */
+            width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
             border-top: 5px solid #1b4d3e; 
             box-sizing: border-box; 
-            touch-action: none; 
+            touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
-        
-        .logo-image { 
-            width: 75px; 
-            height: 75px; 
+        /* Wadah Lingkaran Asli Bawaan Anda yang Terbukti Berhasil */
+        .logo-placeholder { 
+            width: 80px; 
+            height: 80px; 
+            background: #1b4d3e; 
             border-radius: 50%; 
-            margin: 0 auto 10px; 
-            display: block;
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(27, 77, 62, 0.4); 
-            border: 2px solid #1b4d3e;
+            margin: 0 auto 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+            overflow: hidden; /* Mengunci agar gambar terpotong bulat sempurna */
         } 
-        
+        /* Mengunci ukuran gambar di dalam wadah asli tanpa merusak dimensi luar */
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .station-title { 
             margin: 5px 0; 
-            font-size: 21px; 
+            font-size: 22px; 
             color: #e0e0e0; 
         } 
-        
         .station-sub { 
             margin: 0 0 15px 0; 
             font-size: 13px; 
             color: #888; 
         } 
-        
-        /* FIX PENYUSUTAN DIMENSI FRAME: Dikunci ke 300px untuk meredam responsif breakout server */ 
+        /* Pembungkus Frame: Ukuran Lapang Agar Player Streamy Tampil Utuh */ 
         .iframe-container { 
             width: 100%; 
-            height: 300px; 
+            height: 320px; /* Dipertahankan 320px agar sistem sensitif Streamy tidak pecah */ 
             border-radius: 12px; 
-            overflow: hidden !important; 
+            overflow: hidden !important; /* Blokir bar scroll kontainer */ 
             background: #151515; 
             border: 1px solid #2d2d2d; 
             position: relative; 
         } 
-        
+        /* Mengunci Pergerakan di Dalam Iframe */ 
         iframe { 
             width: 100%; 
             height: 100%; 
             border: none; 
-            overflow: hidden !important; 
-            touch-action: none; 
+            overflow: hidden !important; /* Blokir bar scroll halaman target */ 
+            touch-action: none; /* Mematikan geser/scroll di dalam area iframe */ 
         } 
     </style>
 </head>
 <body>
     <div class="player-card"> 
-        <img src="icon-192.png" alt="Logo Radio Islam Sragen" class="logo-image" onerror="this.src='icon-512.png'">
+        <!-- Memasang berkas gambar langsung di dalam wadah bundar asli Anda -->
+        <div class="logo-placeholder">
+            <img src="icon-192.png" alt="Logo" onerror="this.src='icon-512.png'">
+        </div> 
         <h2 class="station-title">Radio Islam Sragen</h2> 
         <p class="station-sub">sragen.radioislam.my.id</p> 
+        <!-- Wadah Iframe yang Terbukti Berhasil Memuat Player Sragen --> 
         <div class="iframe-container"> 
             <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
     <script> 
+        // Mematikan efek geser elastis (overscroll) di webview seluler secara paksa via JavaScript 
         document.addEventListener('touchmove', function(e) { 
             if (e.scale !== 1) { e.preventDefault(); } 
         }, { passive: false }); 
 
+        // DAFTARKAN SERVICE WORKER PWA AGAR BISA DIINSTAL DI HP 
         if ('serviceWorker' in navigator) { 
             window.addEventListener('load', () => { 
                 navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Card Mode Aktif!')) 
+                    .then(reg => console.log('PWA Versi Berhasil Diaktifkan!')) 
                     .catch(err => console.log('PWA Gagal:', err)); 
             }); 
         }
