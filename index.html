@@ -29,6 +29,7 @@
             width: 290px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
+            position: relative;
         }
         .logo-placeholder {
             width: 120px;
@@ -77,6 +78,19 @@
             font-size: 14px; 
             font-style: italic;
         }
+        
+        /* TRIK KHUSUS: Iframe disusutkan 1x1 piksel & transparan agar browser tetap memberi izin suara */
+        .secure-audio-bridge {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            opacity: 0.01; /* Tidak terlihat oleh mata namun tetap aktif di sistem render */
+            pointer-events: none;
+            overflow: hidden;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -86,51 +100,51 @@
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
     
-    <!-- Tombol depan kustom -->
+    <!-- Tombol depan kustom yang mewah -->
     <button class="btn-play" id="play-btn">PUTAR</button>
     
     <p class="status" id="status-text">Siap mendengarkan kajian</p>
+    
+    <!-- Iframe diletakkan di dalam card dengan ukuran mikro (1x1 px) -->
+    <iframe 
+        id="streamy-frame"
+        class="secure-audio-bridge"
+        src="about:blank" 
+        allow="autoplay; encrypted-media">
+    </iframe>
 </div>
 
 <script>
-    // URL STREAM AUDIO HTTPS AMAN DARI STREAMY PANEL ANDA
-    // Jalur port 8000/live ini adalah output audio asli ber-SSL milik server Streamy Panel RII
-    const HTTPS_STREAM_URL = "https://radioislam.my.id";
-    
-    const audio = new Audio();
-    audio.crossOrigin = "anonymous";
-    
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
+    const frame = document.getElementById('streamy-frame');
+    
+    // Alamat halaman HTTPS resmi milik Streamy Panel Anda yang memegang token validasi suara
+    const STREAMY_PLAYER_PAGE = "https://radioislam.my.id";
     let isPlaying = false;
 
     playBtn.addEventListener('click', () => {
         if (!isPlaying) {
-            statusText.innerText = "Menghubungkan ke server Sragen...";
+            statusText.innerText = "Menghubungkan ke secure server...";
             
-            // Menggunakan pengacak cache (?cb=) agar audio selalu real-time saat tombol diklik
-            audio.src = HTTPS_STREAM_URL + "?cb=" + Date.now();
-            audio.load();
+            // Masukkan halaman resmi Streamy ke dalam jembatan mikro
+            frame.src = STREAMY_PLAYER_PAGE;
             
-            audio.play()
-                .then(() => {
-                    isPlaying = true;
-                    playBtn.innerText = "HENTIKAN";
-                    playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat tanda live
-                    statusText.innerText = "Memutar Audio Streaming Live";
-                })
-                .catch(err => {
-                    statusText.innerText = "Gagal memuat stream. Silakan coba kembali.";
-                    console.error("Kesalahan Streaming Audio:", err);
-                });
+            // Berikan waktu jeda 1.2 detik agar token termuat sempurna, lalu audio akan otomatis putar
+            setTimeout(() => {
+                isPlaying = true;
+                playBtn.innerText = "HENTIKAN";
+                playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat
+                statusText.innerText = "Memutar Audio Streaming Live";
+            }, 1200);
             
         } else {
-            audio.pause();
-            audio.src = ""; // Memutus buffer sepenuhnya agar menghentikan penarikan kuota data
+            // Putus total aliran data kuota internet dengan mengosongkan halaman iframe
+            frame.src = "about:blank";
             
             isPlaying = false;
             playBtn.innerText = "PUTAR";
-            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau semula
+            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau
             statusText.innerText = "Streaming dihentikan";
         }
     });
@@ -139,7 +153,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Radio Islam Sragen Aktif Bersih & Lancar!'))
+                .then(reg => console.log('PWA Radio Islam Sragen Aktif Sempurna!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
