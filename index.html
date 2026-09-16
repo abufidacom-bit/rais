@@ -29,7 +29,6 @@
             width: 290px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
-            position: relative;
         }
         .logo-placeholder {
             width: 120px;
@@ -53,50 +52,27 @@
             font-size: 14px;
             color: #888;
         }
-        
-        /* Area Kontrol Interaksi Bertumpuk (Layering Area) */
-        .control-wrapper {
-            position: relative;
-            width: 100%;
-            height: 55px;
-            margin-bottom: 10px;
-        }
-
-        /* STRATEGI 1: Iframe Asli diletakkan di bawah namun dibuat transparan total */
-        .iframe-bridge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            opacity: 0; /* Sengaja dibuat tidak terlihat, tapi fisiknya tetap aktif menerima ketukan */
-            z-index: 2;
-        }
-
-        /* STRATEGI 2: Tombol Kustom Anda diletakkan paling atas hanya sebagai pemanis visual */
-        .btn-play-display {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .btn-play {
             background: #1b4d3e;
+            border: none;
             color: white;
-            padding: 14px 0;
+            padding: 14px 40px;
             font-size: 18px;
             border-radius: 50px;
+            cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
             letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             width: 100%;
-            height: 100%;
             box-sizing: border-box;
-            z-index: 1; /* Di bawah iframe agar jari user menekan tombol asli streamy */
-            pointer-events: none; /* Mengabaikan sentuhan fisik, diteruskan ke elemen di bawahnya */
-            text-align: center;
         }
-        
+        .btn-play:hover { 
+            background: #256b57; 
+            transform: scale(1.03);
+        }
         .status { 
-            margin-top: 15px; 
+            margin-top: 25px; 
             color: #a0a0a0; 
             font-size: 14px; 
             font-style: italic;
@@ -110,44 +86,54 @@
     <h2 class="station-title">Radio Islam Sragen</h2>
     <p class="station-sub">sragen.radioislam.my.id</p>
     
-    <!-- Zona Interaksi Tembus Pandang -->
-    <div class="control-wrapper">
-        <!-- Tombol Pemanis Visual Kustom -->
-        <div class="btn-play-display" id="btn-visual">PUTAR RADIO</div>
-        
-        <!-- Iframe Resmi Streamy Panel yang Diincar Jari User -->
-        <iframe 
-            class="iframe-bridge"
-            id="streamy-frame"
-            src="https://radioislam.my.id" 
-            allow="autoplay; encrypted-media">
-        </iframe>
-    </div>
+    <!-- Elemen Audio Murni HTML5 Standar Kompatibilitas Tinggi -->
+    <audio id="audio-element" crossorigin="anonymous" preload="none"></audio>
     
-    <p class="status" id="status-text">Ketuk tombol di atas untuk Live Stream</p>
+    <!-- Tombol Depan Kustom -->
+    <button class="btn-play" id="play-btn">PUTAR</button>
+    
+    <p class="status" id="status-text">Siap mendengarkan kajian</p>
 </div>
 
 <script>
-    const btnVisual = document.getElementById('btn-visual');
-    const statusText = document.getElementById('status-text');
-    const frame = document.getElementById('streamy-frame');
+    // JALUR SUMBER AUDIO HTTPS DIREK RESMI DARI SERVER STREAMY PANEL ANDA
+    const STREAM_DIRECT_URL = "https://radioislam.my.id";
     
+    const audio = document.getElementById('audio-element');
+    const playBtn = document.getElementById('play-btn');
+    const statusText = document.getElementById('status-text');
     let isPlaying = false;
 
-    // Memanfaatkan event window message jika iframe mengirim tanda, 
-    // namun demi kepraktisan kita lacak perubahan status berdasarkan interaksi area pembungkus
-    document.querySelector('.control-wrapper').addEventListener('click', () => {
+    playBtn.addEventListener('click', () => {
         if (!isPlaying) {
-            isPlaying = true;
-            btnVisual.innerText = "SEDANG LIVE";
-            btnVisual.style.background = "#b33939"; // Berubah merah hangat
-            statusText.innerText = "Memutarkan Kajian Islam Ilmiah...";
+            statusText.innerText = "Menghubungkan ke server Sragen...";
+            
+            // Set sumber alamat streaming langsung murni
+            audio.src = STREAM_DIRECT_URL;
+            audio.load();
+            
+            // Eksekusi pemutaran media secara natural yang didukung penuh browser mobile
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = "HENTIKAN";
+                    playBtn.style.background = "#b33939"; // Warna merah tanda live aktif
+                    statusText.innerText = "Memutar Audio Streaming Live";
+                })
+                .catch(err => {
+                    statusText.innerText = "Gagal memuat. Silakan ketuk kembali.";
+                    console.error("Kesalahan Streaming Audio:", err);
+                });
+            
         } else {
-            // Jika diklik kedua kali, segarkan iframe untuk mematikan suara secara total
-            frame.src = frame.src;
+            // Menghentikan suara dan memotong data kuota internet seketika
+            audio.pause();
+            audio.removeAttribute('src'); 
+            audio.load();
+            
             isPlaying = false;
-            btnVisual.innerText = "PUTAR RADIO";
-            btnVisual.style.background = "#1b4d3e"; // Kembali hijau gelap
+            playBtn.innerText = "PUTAR";
+            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau gelap semula
             statusText.innerText = "Streaming dihentikan";
         }
     });
@@ -156,7 +142,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Layering Mode Aktif!'))
+                .then(reg => console.log('PWA Murni Sukses Dijalankan!'))
                 .catch(err => console.log('PWA Gagal:', err));
         });
     }
