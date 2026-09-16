@@ -1,27 +1,31 @@
-const CACHE_NAME = 'radio-islam-sragen-v2';
+const CACHE_NAME = 'rii-cache-v1';
 const ASSETS = [
-  'index.html',
-  'manifest.json',
-  'icon-192.png',
-  'icon-512.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/assets/icon-192.png',
+  '/assets/icon-512.png'
 ];
 
-self.addEventListener('install', (e) => {
+// Tahap Install Aset Tetap
+self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+    caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(ASSETS);
     })
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  // Cegah browser melakukan caching pada audio streaming kajian Radio Islam Sragen
-  if (e.request.url.includes('11252') || e.request.url.includes('radioislam') || e.request.url.includes('proxy')) {
-    return;
+// Mengambil Aset dari Cache (Kecuali Data Audio Server)
+self.addEventListener('fetch', e => {
+  // Abaikan request streaming audio port 9210 dari sistem caching agar tidak crash
+  if (e.request.url.includes(':9210')) {
+    return; 
   }
+  
   e.respondWith(
-    caches.match(e.request).then((response) => {
-      return response || fetch(e.request);
+    caches.match(e.request).then(cachedResponse => {
+      return cachedResponse || fetch(e.request);
     })
   );
 });
