@@ -1,21 +1,36 @@
 {
-  "short_name": "RadioIslamSragen",
-  "name": "Radio Islam Sragen Streaming",
+  "short_name": "RI Sragen",
+  "name": "Radio Islam Sragen",
+  "description": "Aplikasi PWA Resmi Radio Islam Sragen - Menyiarkan Kajian Islam Ilmiah",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "assets/icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "assets/icon-512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "background_color": "#121212",
-  "display": "standalone",
   "theme_color": "#1b4d3e",
+  "display": "standalone",
   "orientation": "portrait"
 }
