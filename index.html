@@ -1,11 +1,11 @@
 <script>
-    // Alamat URL streaming asli Radio Islam Sragen
-    const STREAM_URL = "http://radioislam.my.id"; 
+    // PENULISAN URL FORMAT SHOUTCAST YANG BENAR UNTUK BROWSER WEB
+    // Menambahkan titik koma (;) wajib hukumnya bagi server Shoutcast agar langsung memancarkan audio mentah
+    const STREAM_URL = "http://streamy1.radioislam.my.id:9210/;"; 
     
     const playBtn = document.getElementById('play-btn');
     const statusText = document.getElementById('status-text');
     
-    // Variabel global untuk menyimpan referensi jendela radio
     let radioWindow = null; 
     let isPlaying = false;
 
@@ -13,34 +13,36 @@
         if (!isPlaying) {
             statusText.innerText = "Membuka saluran radio...";
             
-            // Pengaturan agar pop-up berukuran kecil (320x160 piksel) seperti widget pemutar audio
-            const windowFeatures = "width=320,height=160,resizable=no,scrollbars=no,status=no,menubar=no,toolbar=no";
+            // Membuat jendela pop-up berukuran kecil layaknya widget mini player
+            const windowFeatures = "width=340,height=180,resizable=no,scrollbars=no,status=no,menubar=no,toolbar=no";
             
-            // Membuka aliran HTTP langsung di jendela tersendiri (Bypass proteksi HTTPS browser)
+            // Membuka aliran audio langsung di jendela terpisah untuk melewati proteksi HTTPS browser
             radioWindow = window.open(STREAM_URL, "RadioIslamSragenPlayer", windowFeatures);
             
             if (radioWindow) {
                 isPlaying = true;
                 playBtn.innerText = "HENTIKAN";
-                playBtn.style.background = "#b33939"; // Berubah warna menjadi merah hangat
+                playBtn.style.background = "#b33939"; // Berubah warna menjadi merah
                 statusText.innerText = "Menyiarkan Audio Live (Jendela Terbuka)";
             } else {
-                statusText.innerText = "Gagal memutar. Izinkan izin 'Pop-up' di browser Anda.";
+                // Notifikasi ini muncul jika browser bawaan memblokir pop-up secara otomatis
+                statusText.innerText = "Gagal memutar. Harap IZINKAN izin 'Pop-up' di browser Anda.";
             }
             
         } else {
-            // Jika tombol di PWA ditekan kembali saat memutar, jendela streaming otomatis ditutup
+            // Menutup jendela streaming secara otomatis saat tombol HENTIKAN ditekan
             if (radioWindow && !radioWindow.closed) {
+                radioWindow.closed = false; // Reset status browser
                 radioWindow.close();
             }
             isPlaying = false;
             playBtn.innerText = "PUTAR";
-            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau gelap semula
+            playBtn.style.background = "#1b4d3e"; // Kembali ke warna hijau semula
             statusText.innerText = "Streaming dihentikan";
         }
     });
 
-    // Fitur Tambahan: Jika pendengar menutup jendela kecil radio secara manual, tombol PWA otomatis reset ke "PUTAR"
+    // Fitur sinkronisasi otomatis: Jika pendengar menutup jendela radio secara manual, tombol PWA otomatis kembali ke "PUTAR"
     setInterval(() => {
         if (isPlaying && radioWindow && radioWindow.closed) {
             isPlaying = false;
