@@ -7,6 +7,11 @@
     <!-- Hubungkan ke file Manifest PWA --> 
     <link rel="manifest" href="manifest.json"> 
     <meta name="theme-color" content="#1b4d3e"> 
+    
+    <!-- FIX INDUK IKON iPHONE: Memaksa iOS Safari membaca ikon dari folder utama Anda -->
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
+    
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
@@ -44,17 +49,16 @@
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
-        .logo-placeholder { 
+        /* FIX VISUAL IKON: Mengubah gaya lingkaran agar memuat berkas gambar resmi Anda */
+        .logo-image { 
             width: 80px; 
             height: 80px; 
-            background: #1b4d3e; 
             border-radius: 50%; 
             margin: 0 auto 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 32px; 
+            display: block;
+            object-fit: cover;
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+            border: 2px solid #1b4d3e;
         } 
         .station-title { 
             margin: 5px 0; 
@@ -88,7 +92,8 @@
 </head>
 <body>
     <div class="player-card"> 
-        <div class="logo-placeholder">🇲🇨</div> 
+        <!-- INSTAN: Menampilkan gambar logo resmi langsung dari berkas icon-192.png milik Anda -->
+        <img src="icon-192.png" alt="Logo Radio Islam Sragen" class="logo-image" onerror="this.src='icon-512.png'">
         <h2 class="station-title">Radio Islam Sragen</h2> 
         <p class="station-sub">sragen.radioislam.my.id</p> 
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
@@ -107,7 +112,7 @@
         if ('serviceWorker' in navigator) { 
             window.addEventListener('load', () => { 
                 navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!')) 
+                    .then(reg => console.log('PWA Ikon Resmi Sukses Diaktifkan!')) 
                     .catch(err => console.log('PWA Gagal:', err)); 
             }); 
         }
