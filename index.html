@@ -6,10 +6,7 @@
     <title>Radio Islam Sragen</title> 
     <!-- Hubungkan ke file Manifest PWA --> 
     <link rel="manifest" href="manifest.json"> 
-    
-    <!-- MODIFIKASI: Mengubah warna tema PWA di Android menjadi Putih -->
-    <meta name="theme-color" content="#ffffff"> 
-    
+    <meta name="theme-color" content="#1b4d3e"> 
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
@@ -43,29 +40,21 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
             width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
-            
-            /* MODIFIKASI: Mengubah garis atas kartu pemutar menjadi Putih */
-            border-top: 5px solid #ffffff; 
-            
+            border-top: 5px solid #1b4d3e; 
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
         .logo-placeholder { 
             width: 80px; 
             height: 80px; 
-            
-            /* MODIFIKASI: Mengubah latar belakang lingkaran logo menjadi Putih */
-            background: #ffffff; 
-            
+            background: #1b4d3e; 
             border-radius: 50%; 
             margin: 0 auto 12px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             font-size: 32px; 
-            
-            /* MODIFIKASI: Menyesuaikan efek bayangan lingkaran agar menggunakan cahaya Putih transparan */
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
         } 
         .station-title { 
             margin: 5px 0; 
@@ -83,9 +72,15 @@
             height: 320px; /* Dipertahankan 320px agar sistem sensitif Streamy tidak pecah */ 
             border-radius: 12px; 
             overflow: hidden !important; /* Blokir bar scroll kontainer */ 
-            background: #151515; 
-            border: 1px solid #2d2d2d; 
             position: relative; 
+            
+            /* MODIFIKASI: Mengubah latar belakang frame menjadi Putih dan garis tepi abu terang */ 
+            background: #ffffff; 
+            border: 1px solid #e0e0e0; 
+            
+            /* MEMPERTAHANKAN: Jarak padding 25px pada atas, kanan, kiri */ 
+            padding: 25px 25px 0px 25px; 
+            box-sizing: border-box; 
         } 
         /* Mengunci Pergerakan di Dalam Iframe */ 
         iframe { 
