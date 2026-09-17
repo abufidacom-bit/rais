@@ -1,118 +1,131 @@
 <!DOCTYPE html>
 <html lang="id">
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"> 
-    <title>Radio Islam Sragen</title> 
-    <!-- Hubungkan ke file Manifest PWA --> 
-    <link rel="manifest" href="manifest.json"> 
-    <meta name="theme-color" content="#1b4d3e"> 
-    <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
-    <meta name="apple-mobile-web-app-capable" content="yes"> 
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
-    <style> 
-        /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */ 
-        html, body { 
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: #121212; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            /* Mengatur perataan agar posisi terangkat aman ke bagian atas layar HP */ 
-            justify-content: flex-start; 
-            padding-top: 4vh; 
-            overflow: hidden !important; /* Menghapus bar scroll secara mutlak */ 
-            position: fixed; /* Mengunci posisi layar dari efek bounce elastis iOS */ 
-            touch-action: none; /* Mematikan semua gerakan geser jari pada latar belakang */ 
-            user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */ 
-            box-sizing: border-box; 
-        } 
-        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */ 
-        .player-card { 
-            background: #1e1e1e; 
-            padding: 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-            text-align: center; 
-            width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */ 
-            border-top: 5px solid #1b4d3e; 
-            box-sizing: border-box; 
-            touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
-        } 
-        .logo-placeholder { 
-            width: 80px; 
-            height: 80px; 
-            background: #1b4d3e; 
-            border-radius: 50%; 
-            margin: 0 auto 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 32px; 
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
-        } 
-        .station-title { 
-            margin: 5px 0; 
-            font-size: 22px; 
-            color: #e0e0e0; 
-        } 
-        .station-sub { 
-            margin: 0 0 15px 0; 
-            font-size: 13px; 
-            color: #888; 
-        } 
-        /* Pembungkus Frame: Ukuran Lapang Agar Player Streamy Tampil Utuh */ 
-        .iframe-container { 
-            width: 100%; 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Radio Islam Sragen</title>
+    <!-- Hubungkan ke file Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1b4d3e">
+    
+    <!-- Pengaturan Khusus iOS/Safari PWA Standalone -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <style>
+        /* KUNCI TOTAL LAYAR UTAMA: Mencegah halaman ditarik/digeser ke atas-bawah oleh jari */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Mengatur perataan agar posisi terangkat aman ke bagian atas layar HP */
+            justify-content: flex-start;
+            padding-top: 4vh;
+            overflow: hidden !important; /* Menghapus bar scroll secara mutlak */
+            position: fixed; /* Mengunci posisi layar dari efek bounce elastis iOS */
+            touch-action: none; /* Mematikan semua gerakan geser jari pada latar belakang */
+            user-select: none; /* Mencegah teks terblok atau tersorot secara tidak sengaja */
+            box-sizing: border-box;
+        }
+
+        /* Kartu Pemutar Terkunci Presisi & Diperbesar Mengikuti Ukuran Player Baru */
+        .player-card {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 340px; /* Diperlebar sedikit agar komponen player lebih lega */
+            border-top: 5px solid #1b4d3e;
+            box-sizing: border-box;
+            touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: #1b4d3e;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
+        }
+
+        .station-title {
+            margin: 5px 0;
+            font-size: 22px;
+            color: #e0e0e0;
+        }
+
+        .station-sub {
+            margin: 0 0 15px 0;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* Pembungkus Frame: Di-scale agar mengecil secara visual tanpa merusak layout player di dalamnya */
+        .iframe-container {
+            width: 100%;
+            height: 445px; /* Tetap pertahankan tinggi asli player internal */
+            border-radius: 12px;
+            overflow: hidden !important;
+            background: #151515;
+            border: 1px solid #2d2d2d;
+            position: relative;
             
-            /* MODIFIKASI HANYA PADA BARIS INI: Tinggi ditambah 125px menjadi 445px */
-            height: 445px; 
-            
-            border-radius: 12px; 
-            overflow: hidden !important; /* Blokir bar scroll kontainer */ 
-            background: #151515; 
-            border: 1px solid #2d2d2d; 
-            position: relative; 
-        } 
-        /* Mengunci Pergerakan di Dalam Iframe */ 
-        iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-            overflow: hidden !important; /* Blokir bar scroll halaman target */ 
-            touch-action: none; /* Mematikan geser/scroll di dalam area iframe */ 
-        } 
+            /* PENGATURAN SKALA MENGECEKILKAN FRAME */
+            transform: scale(0.85); /* 0.85 berarti mengecil ke 85%. Silakan ubah angka ini (misal 0.8 atau 0.9) sesuai selera */
+            transform-origin: top center; /* Menjaga jangkar skala tetap di atas tengah */
+            margin-bottom: -65px; /* Mengkompensasi ruang kosong di bawah akibat efek scaling */
+        }
+
+        /* Mengunci Pergerakan di Dalam Iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow: hidden !important; /* Blokir bar scroll halaman target */
+            touch-action: none; /* Mematikan geser/scroll di dalam area iframe */
+        }
     </style>
 </head>
 <body>
-    <div class="player-card"> 
-        <div class="logo-placeholder">🇲🇨</div> 
-        <h2 class="station-title">Radio Islam Sragen</h2> 
-        <p class="station-sub">sragen.radioislam.my.id</p> 
-        <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
-        <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
-        </div> 
+
+    <div class="player-card">
+        <div class="logo-placeholder">🇲🇨</div>
+        <h2 class="station-title">Radio Islam Sragen</h2>
+        <p class="station-sub">sragen.radioislam.my.id</p>
+        
+        <!-- Wadah Iframe dengan Fitur Scaling Efektif -->
+        <div class="iframe-container">
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player">
+            </iframe>
+        </div>
     </div>
 
-    <script> 
-        // Mematikan efek geser elastis (overscroll) di webview seluler secara paksa via JavaScript 
-        document.addEventListener('touchmove', function(e) { 
-            if (e.scale !== 1) { e.preventDefault(); } 
-        }, { passive: false }); 
+    <script>
+        // Mematikan efek geser elastis (overscroll) di webview seluler secara paksa via JavaScript
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) { e.preventDefault(); }
+        }, { passive: false });
 
-        // DAFTARKAN SERVICE WORKER PWA AGAR BISA DIINSTAL DI HP 
-        if ('serviceWorker' in navigator) { 
-            window.addEventListener('load', () => { 
-                navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!')) 
-                    .catch(err => console.log('PWA Gagal:', err)); 
-            }); 
+        // DAFTARKAN SERVICE WORKER PWA AGAR BISA DIINSTAL DI HP
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!'))
+                .catch(err => console.log('PWA Gagal:', err));
+            });
         }
     </script>
 </body>
