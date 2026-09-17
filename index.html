@@ -18,7 +18,7 @@
             width: 100%; 
             height: 100%; 
             
-            /* MODIFIKASI HANYA PADA BARIS INI: Mengubah background utama menjadi putih */
+            /* MEMPERTAHANKAN: Background utama tetap putih */
             background-color: #ffffff; 
             
             color: #ffffff; 
@@ -47,38 +47,37 @@
             box-sizing: border-box; 
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
+        
+        /* MODIFIKASI: Memperbesar ukuran lingkaran logo dan ukuran font bendera di dalamnya */
         .logo-placeholder { 
-            width: 80px; 
-            height: 80px; 
+            width: 130px; 
+            height: 130px; 
             background: #1b4d3e; 
             border-radius: 50%; 
-            margin: 0 auto 12px; 
+            
+            /* Menyesuaikan margin bawah agar memberikan jarak ideal langsung ke frame */
+            margin: 10px auto 25px; 
+            
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 32px; 
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+            font-size: 60px; /* Memperbesar ukuran emoji bendera */ 
+            box-shadow: 0 0 25px rgba(27, 77, 62, 0.5); 
         } 
-        .station-title { 
-            margin: 5px 0; 
-            font-size: 22px; 
-            color: #e0e0e0; 
-        } 
-        .station-sub { 
-            margin: 0 0 15px 0; 
-            font-size: 13px; 
-            color: #888; 
-        } 
+        
         /* Pembungkus Frame: Ukuran Lapang Agar Player Streamy Tampil Utuh */ 
         .iframe-container { 
             width: 100%; 
             
-            /* MODIFIKASI HANYA PADA BARIS INI: Memanjangkan ukuran tinggi frame ke bawah */
+            /* MEMPERTAHANKAN: Ukuran tinggi ke bawah tetap 400px */
             height: 400px; 
             
             border-radius: 12px; 
             overflow: hidden !important; /* Blokir bar scroll kontainer */ 
-            background: #151515; 
+            
+            /* MEMPERTAHANKAN: Background frame tetap berwarna putih */
+            background: #ffffff; 
+            
             border: 1px solid #2d2d2d; 
             position: relative; 
         } 
@@ -94,9 +93,12 @@
 </head>
 <body>
     <div class="player-card"> 
+        
+        <!-- Bagian lingkaran logo yang telah diperbesar komponennya -->
         <div class="logo-placeholder">🇲🇨</div> 
-        <h2 class="station-title">Radio Islam Sragen</h2> 
-        <p class="station-sub">sragen.radioislam.my.id</p> 
+        
+        <!-- MODIFIKASI: Menghapus baris kode teks station-title dan station-sub di sini -->
+        
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
         <div class="iframe-container"> 
             <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
