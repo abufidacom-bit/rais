@@ -34,7 +34,7 @@
             box-sizing: border-box;
         }
 
-        /* Kartu Pemutar Utama */
+        /* Kartu Pemutar Utama tetap di ukurannya */
         .player-card {
             background: #1e1e1e;
             padding: 25px;
@@ -72,29 +72,41 @@
             color: #888;
         }
 
-        /* Wadah Jendela: Bertindak sebagai topeng/masker yang memotong sisi luar iframe */
+        /* Pembungkus Jendela (Bertindak sebagai bingkai pemotong) */
         .iframe-container {
-            width: 100%; /* Lebar wadah mengikuti kartu (340px dikurangi padding) */
-            height: 445px; 
+            width: 100%;
+            height: 380px; /* Atur tinggi bingkai luar yang Anda inginkan di sini */
             border-radius: 12px;
-            overflow: hidden !important; /* Memotong bagian iframe yang keluar dari area ini */
+            overflow: hidden !important;
             background: #151515;
             border: 1px solid #2d2d2d;
             position: relative;
             
-            /* Menengahkan iframe secara horizontal di dalam wadah */
-            display: flex;
-            justify-content: center; 
+            /* ======================================================= */
+            /* UBAH ANGKA DI BAWAH INI UNTUK MENGATUR SKALA SECARA MANUAL */
+            /* ======================================================= */
+            --player-scale: 0.85; /* Contoh: 0.85 berarti ukuran konten 85% */
         }
 
-        /* Iframe Asli: Dibiarkan berukuran penuh/lebar agar komponen internalnya tidak hancur */
+        /* Mengunci Pergerakan dan Mengatur Skala Konten di Dalam Iframe */
         iframe {
             position: absolute;
-            width: 445px; /* Diberi lebar ideal bawaan player agar isinya tidak tertekan ke dalam */
-            height: 100%;
+            
+            /* Hitung lebar basis asli agar konten internal tidak hancur saat diperkecil */
+            width: calc(100% / var(--player-scale));
+            height: calc(100% / var(--player-scale));
+            
+            /* Posisikan tepat di tengah-tengah kontainer bingkai */
+            top: 50%;
+            left: 50%;
+            
             border: none;
             overflow: hidden !important;
             touch-action: none;
+            
+            /* Proses eksekusi skala manual */
+            transform: translate(-50%, -50%) scale(var(--player-scale));
+            transform-origin: center center;
         }
     </style>
 </head>
@@ -105,9 +117,9 @@
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">sragen.radioislam.my.id</p>
         
-        <!-- Wadah pembungkus yang memotong (crop) pinggiran player -->
+        <!-- Wadah Iframe -->
         <div class="iframe-container">
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player">
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player">
             </iframe>
         </div>
     </div>
@@ -120,7 +132,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('PWA Player Sukses Diaktifkan!'))
+                .then(reg => console.log('PWA Frame Lapang Sukses Diaktifkan!'))
                 .catch(err => console.log('PWA Gagal:', err));
             });
         }
