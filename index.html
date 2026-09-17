@@ -54,14 +54,11 @@
             align-items: center; 
             justify-content: center; 
             
-            /* Font khusus Arab sistem Android/iOS agar melengkung indah */
             font-family: 'Noto Nastaliq Urdu', 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
             font-size: 36px;     
             font-weight: bold;
             
-            /* Efek Warna Emas Gradasi pada Teks */
-            background: linear-gradient(135px, #ffe066 0%, #f5b041 50%, #c0392b 100%);
-            background-clip: text;
+            background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #c0392b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             
@@ -121,14 +118,20 @@
 <body>
     <div class="player-card"> 
         
-        <!-- Logo Teks Arab "Raais" dengan Harakat lengkap -->
+        <!-- Logo Teks Arab "Raais" -->
         <div class="logo-placeholder">رَائِس</div> 
         
         <h2 class="station-title">Radio Islam Sragen</h2> 
         
-        <!-- Wadah Iframe dengan Ukuran yang Terkunci Mutlak --> 
+        <!-- Wadah Iframe yang Sudah Diperbaiki Tautannya --> 
         <div class="iframe-container"> 
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://radioislam.my.id" 
+                    allow="autoplay; encrypted-media" 
+                    scrolling="no" 
+                    title="Streamy Player"
+                    sandbox="allow-scripts "
+                    referrerpolicy="no-referrer"> 
+            </iframe> 
         </div> 
     </div>
 
