@@ -48,20 +48,20 @@
             touch-action: none; /* Kunci kartu agar tidak ikut bergeser saat interaksi */ 
         } 
         
-        /* MODIFIKASI: Memperbesar ukuran lingkaran logo dan ukuran font bendera di dalamnya */
+        /* MODIFIKASI: Mengubah bentuk logo dari lingkaran (50%) menjadi kotak round (12px) seperti frame */
         .logo-placeholder { 
             width: 130px; 
             height: 130px; 
             background: #1b4d3e; 
-            border-radius: 50%; 
             
-            /* Menyesuaikan margin bawah agar memberikan jarak ideal langsung ke frame */
+            /* DISESUAIKAN: Menjadi 12px agar lengkungannya sama persis dengan lekukan frame */
+            border-radius: 12px; 
+            
             margin: 10px auto 25px; 
-            
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 60px; /* Memperbesar ukuran emoji bendera */ 
+            font-size: 60px; 
             box-shadow: 0 0 25px rgba(27, 77, 62, 0.5); 
         } 
         
@@ -94,14 +94,12 @@
 <body>
     <div class="player-card"> 
         
-        <!-- Bagian lingkaran logo yang telah diperbesar komponennya -->
+        <!-- Wadah kotak logo baru dengan lekukan sudut yang serasi -->
         <div class="logo-placeholder">🇲🇨</div> 
-        
-        <!-- MODIFIKASI: Menghapus baris kode teks station-title dan station-sub di sini -->
         
         <!-- Wadah Iframe Baru yang Lebih Lapang untuk Mengunci Player Sragen --> 
         <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
