@@ -53,14 +53,15 @@
             align-items: center; 
             justify-content: center; 
             
-            /* Konfigurasi Font Arab Khusus */
+            /* Konfigurasi Font Arab Sistem */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
-            font-size: 26px;     /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
             color: #ffffff;      
             font-weight: bold;
-            direction: rtl;      /* Memastikan urutan penulisan Arab dari kanan ke kiri */
-            
+            direction: rtl;      
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
+
+            /* Nilai ukuran ini dikontrol secara dinamis oleh JavaScript di bawah */
+            font-size: var(--ukuran-font-logo, 26px); 
         } 
         .station-title { 
             margin: 5px 0; 
@@ -78,32 +79,27 @@
             position: relative; 
             width: 100%; 
             border-radius: 12px; 
-            overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */ 
+            overflow: hidden !important; 
             background: #151515; 
             border: 1px solid #2d2d2d; 
 
             /* ======================================================= */
-            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI)        */
+            /* PENGATURAN CROP MANUAL                                  */
             /* ======================================================= */
-            height: 83px;      /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
-            --crop-left: -50px;  /* 2. Geser ke kiri (Gunakan minus untuk memotong sisi kiri) */
-            --crop-top: -135px;  /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
+            height: 83px;      
+            --crop-left: -50px;  
+            --crop-top: -135px;  
             /* ======================================================= */
         } 
         
         /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */ 
         iframe { 
             position: absolute;
-            
-            /* Tetap pertahankan resolusi asli player agar layout internalnya tidak rusak */
             width: 440px;  
             height: 445px; 
-            
             border: none; 
             overflow: hidden !important; 
             touch-action: none; 
-            
-            /* Menggeser posisi player di balik topeng pembungkus */
             left: var(--crop-left);
             top: var(--crop-top);
         } 
@@ -112,19 +108,31 @@
 <body>
     <div class="player-card"> 
         
-        <!-- Bendera diganti dengan teks Arab Raais berharakat -->
-        <div class="logo-placeholder">رَائِس</div> 
+        <!-- Logo Teks Kontainer Dinamis -->
+        <div class="logo-placeholder" id="customLogoText"></div> 
         
         <h2 class="station-title">Radio Islam Sragen</h2> 
         <p class="station-sub">sragen.radioislam.my.id</p> 
         
         <!-- Wadah Iframe dengan Fitur Manual Crop --> 
         <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
     <script> 
+        // =======================================================
+        // PANEL PENGATURAN LOGO (UBAH DI SINI SETIAP SAAT):
+        // =======================================================
+        const tulisanArabLogo = "رَائِس";  /* <-- Ganti teks Arab di dalam tanda kutip ini */
+        const ukuranFontManual = "30px";    /* <-- Ganti ukuran font secara manual di sini */
+        // =======================================================
+
+        // Menjalankan perintah injeksi teks dan ukuran ke element HTML
+        document.getElementById("customLogoText").textContent = tulisanArabLogo;
+        document.documentElement.style.setProperty('--ukuran-font-logo', ukuranFontManual);
+
+        // Mengunci zoom layar otomatis
         document.addEventListener('touchmove', function(e) { 
             if (e.scale !== 1) { e.preventDefault(); } 
         }, { passive: false }); 
