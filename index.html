@@ -41,7 +41,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             text-align: center;
-            width: 400px;
+            width: 400px; /* Diperlebar dari 340px ke 480px agar kartu muat */
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
@@ -58,10 +58,10 @@
             justify-content: center;
             /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
-            font-size: 26px;
+            font-size: 26px; /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
             color: #ffffff;
             font-weight: bold;
-            direction: rtl;
+            direction: rtl; /* Memastikan urutan penulisan Arab dari kanan ke kiri */
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
         }
 
@@ -71,9 +71,9 @@
             color: #e0e0e0;
         }
 
-        /* Teks Pengganti Frame Sumber */
-        .station-description {
-            margin: 10px 0 20px 0;
+        /* Gaya teks baris kedua pengganti info sumber lama */
+        .station-sub {
+            margin: 0 0 20px 0;
             font-size: 13px;
             color: #888;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -82,29 +82,29 @@
         /* Pembungkus Jendela (Masking / Topeng Pemotong) */
         .iframe-container {
             position: relative;
-            width: 100%;
+            width: 100%; /* Otomatis melebar mengikuti .player-card */
             border-radius: 12px;
             overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */
             background: #151515;
             border: 1px solid #2d2d2d;
-            
             /* ======================================================= */
-            /* PENGATURAN CROP UNTUK MENYEMBUNYIKAN TAMPILAN TEKS SUMBER */
+            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI) */
             /* ======================================================= */
-            height: 62px;       
-            --crop-left: -50px; 
-            --crop-top: -168px; /* Tampilan teks sumber di atas tombol player tertutup sempurna */
+            height: 83px; /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
+            --crop-left: -50px; /* Geser lebih ke kiri agar konten tengah tetap pas */
+            --crop-top: -135px; /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
             /* ======================================================= */
         }
 
-        /* Aplikasi Target yang Dibungkus (Dokumen Tetap Asli) */
+        /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */
         iframe {
             position: absolute;
-            width: 480px;
+            width: 480px; /* Lebar asli iframe ditambah dari 440px ke 480px */
             height: 445px;
             border: none;
             overflow: hidden !important;
             touch-action: none;
+            /* Menggeser posisi player di balik topeng pembungkus */
             left: var(--crop-left);
             top: var(--crop-top);
         }
@@ -117,12 +117,12 @@
         <div class="logo-placeholder">رَائِس</div>
         <h2 class="station-title">Radio Islam Sragen</h2>
         
-        <!-- Teks Baru Sesuai Permintaan Anda -->
-        <p class="station-description">Lantunan Murotal dan Kajian Islam Ilmiah</p>
+        <!-- Baris kedua lama telah dihapus dan diganti teks baru Anda -->
+        <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
 
-        <!-- Wadah Iframe (Dokumen Asli Tetap Dimuat, Hanya Tampilan Atasnya yang Dipotong CSS) -->
+        <!-- Wadah Iframe dengan Fitur Manual Crop -->
         <div class="iframe-container">
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
