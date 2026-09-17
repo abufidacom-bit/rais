@@ -1,130 +1,157 @@
 <!DOCTYPE html>
 <html lang="id">
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"> 
-    <title>Radio Islam Sragen</title> 
-    <!-- Hubungkan ke file Manifest PWA --> 
-    <link rel="manifest" href="manifest.json"> 
-    <meta name="theme-color" content="#1b4d3e"> 
-    <!-- Pengaturan Khusus iOS/Safari PWA Standalone --> 
-    <meta name="apple-mobile-web-app-capable" content="yes"> 
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
-    <style> 
-        /* KUNCI TOTAL LAYAR UTAMA */ 
-        html, body { 
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: #121212; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            padding-top: 4vh; 
-            overflow: hidden !important; 
-            position: fixed; 
-            touch-action: none; 
-            user-select: none; 
-            box-sizing: border-box; 
-        } 
-        /* Kartu Pemutar Terkunci Presisi */ 
-        .player-card { 
-            background: #1e1e1e; 
-            padding: 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-            text-align: center; 
-            width: 340px; 
-            border-top: 5px solid #1b4d3e; 
-            box-sizing: border-box; 
-            touch-action: none; 
-        } 
-        .logo-placeholder { 
-            width: 80px; 
-            height: 80px; 
-            background: #1b4d3e; 
-            border-radius: 50%; 
-            margin: 0 auto 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 32px; 
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
-        } 
-        .station-title { 
-            margin: 5px 0; 
-            font-size: 22px; 
-            color: #e0e0e0; 
-        } 
-        .station-sub { 
-            margin: 0 0 15px 0; 
-            font-size: 13px; 
-            color: #888; 
-        } 
-        
-        /* Pembungkus Jendela (Masking / Topeng Pemotong) */ 
-        .iframe-container { 
-            position: relative; 
-            width: 100%; 
-            border-radius: 12px; 
-            overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */ 
-            background: #151515; 
-            border: 1px solid #2d2d2d; 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Radio Islam Sragen</title>
+    <!-- Hubungkan ke file Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1b4d3e">
+    
+    <!-- Pengaturan Khusus iOS/Safari PWA Standalone -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <style>
+        /* KUNCI TOTAL LAYAR UTAMA */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 4vh;
+            overflow: hidden !important;
+            position: fixed;
+            touch-action: none;
+            user-select: none;
+            box-sizing: border-box;
+        }
 
-            /* ======================================================= */
-            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI)        */
-            /* ======================================================= */
-            height: 83px;      /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
-            --crop-left: -50px;  /* 2. Geser ke kiri (Gunakan minus untuk memotong sisi kiri) */
-            --crop-top: -135px;  /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
-            /* ======================================================= */
-        } 
-        
-        /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */ 
-        iframe { 
-            position: absolute;
-            
-            /* Tetap pertahankan resolusi asli player agar layout internalnya tidak rusak */
-            width: 440px;  
-            height: 445px; 
-            
-            border: none; 
+        /* Kartu Pemutar Terkunci Presisi */
+        .player-card {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 340px;
+            border-top: 5px solid #1b4d3e;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: #1b4d3e;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
+        }
+
+        /* ======================================================= */
+        /* BAGIAN 1: PENGATURAN GAYA VISUAL TEKS (WARNA & UKURAN)  */
+        /* ======================================================= */
+
+        /* Gaya Teks Atas (Judul) */
+        .station-title {
+            margin: 0 0 4px 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+            font-size: 24px;       /* <-- UBAH UKURAN HURUF TEKS ATAS */
+            color: #ffffff;        /* <-- UBAH WARNA TEKS ATAS */
+        }
+
+        /* Gaya Teks Bawah (Subtitle) */
+        .station-sub {
+            margin: 0 0 20px 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+
+            font-size: 13px;       /* <-- UBAH UKURAN HURUF TEKS BAWAH */
+            color: #266b57;        /* <-- UBAH WARNA TEKS BAWAH */
+        }
+
+        /* ======================================================= */
+        /* PEMBUNGKUS JENDELA & IFRAME (JANGAN DIUBAH-UBAH)         */
+        /* ======================================================= */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
             overflow: hidden !important; 
-            touch-action: none; 
-            
-            /* Menggeser posisi player di balik topeng pembungkus */
+            background: #151515;
+            border: 1px solid #2d2d2d;
+            height: 83px;       
+            --crop-left: -50px; 
+            --crop-top: -135px; 
+        }
+
+        iframe {
+            position: absolute;
+            width: 440px;
+            height: 445px;
+            border: none;
+            overflow: hidden !important;
+            touch-action: none;
             left: var(--crop-left);
             top: var(--crop-top);
-        } 
+        }
     </style>
 </head>
 <body>
-    <div class="player-card"> 
-        <div class="logo-placeholder">🇲🇨</div> 
-        <h2 class="station-title">Radio Islam Sragen</h2> 
-        <p class="station-sub">sragen.radioislam.my.id</p> 
+
+    <div class="player-card">
+        <div class="logo-placeholder">🇲🇨</div>
         
-        <!-- Wadah Iframe dengan Fitur Manual Crop --> 
-        <div class="iframe-container"> 
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
-        </div> 
+        <!-- ======================================================= -->
+        /* BAGIAN 2: UBAH ISI TULISAN ANDA DI SINI                 */
+        <!-- ======================================================= -->
+        
+        <!-- Teks Atas -->
+        <h2 class="station-title">Radio Islam Sragen</h2> 
+        
+        <!-- Teks Bawah (Huruf kecil tetap terjaga) -->
+        <p class="station-sub">sragen.radioislam.my.id</p>
+
+        <!-- ======================================================= -->
+
+        <!-- Wadah Iframe dengan Fitur Manual Crop -->
+        <div class="iframe-container">
+            <iframe src="https://radioislam.my.id" 
+                    allow="autoplay; encrypted-media" 
+                    scrolling="no" 
+                    title="Streamy Player">
+            </iframe>
+        </div>
     </div>
 
-    <script> 
-        document.addEventListener('touchmove', function(e) { 
-            if (e.scale !== 1) { e.preventDefault(); } 
-        }, { passive: false }); 
+    <script>
+        // Mengunci zoom layar otomatis
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) { e.preventDefault(); }
+        }, { passive: false });
 
-        if ('serviceWorker' in navigator) { 
-            window.addEventListener('load', () => { 
-                navigator.serviceWorker.register('sw.js') 
-                    .then(reg => console.log('PWA Manual Crop Sukses Diaktifkan!')) 
-                    .catch(err => console.log('PWA Gagal:', err)); 
-            }); 
+        // Aktivasi Service Worker PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('PWA Manual Crop Sukses Diaktifkan!'))
+                .catch(err => console.log('PWA Gagal:', err));
+            });
         }
     </script>
 </body>
