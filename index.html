@@ -60,34 +60,27 @@
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
         }
 
-        /* ======================================================= */
-        /* BAGIAN 1: PENGATURAN GAYA VISUAL TEKS (WARNA & UKURAN)  */
-        /* ======================================================= */
-
-        /* Gaya Teks Atas (Judul) */
+        /* Gaya Teks Atas (Judul Custom) */
         .station-title {
             margin: 0 0 4px 0;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-
-            font-size: 24px;       /* <-- UBAH UKURAN HURUF TEKS ATAS */
-            color: #ffffff;        /* <-- UBAH WARNA TEKS ATAS */
+            font-size: 24px;       
+            color: #ffffff;        
         }
 
-        /* Gaya Teks Bawah (Subtitle) */
+        /* Gaya Teks Bawah (Link/Subtitle Custom) */
         .station-sub {
             margin: 0 0 20px 0;
             font-weight: 500;
             letter-spacing: 0.5px;
-
-            font-size: 13px;       /* <-- UBAH UKURAN HURUF TEKS BAWAH */
-            color: #266b57;        /* <-- UBAH WARNA TEKS BAWAH */
+            font-size: 13px;       
+            color: #266b57;        
+            text-transform: none; /* Menjaga teks tetap huruf kecil sesuai input asli */
         }
 
-        /* ======================================================= */
-        /* PEMBUNGKUS JENDELA & IFRAME (JANGAN DIUBAH-UBAH)         */
-        /* ======================================================= */
+        /* PEMBUNGKUS JENDELA & IFRAME (JANGAN DIUBAH-UBAH) */
         .iframe-container {
             position: relative;
             width: 100%;
@@ -117,17 +110,9 @@
     <div class="player-card">
         <div class="logo-placeholder">🇲🇨</div>
         
-        <!-- ======================================================= -->
-        /* BAGIAN 2: UBAH ISI TULISAN ANDA DI SINI                 */
-        <!-- ======================================================= -->
-        
-        <!-- Teks Atas -->
-        <h2 class="station-title">Radio Islam Sragen</h2> 
-        
-        <!-- Teks Bawah (Huruf kecil tetap terjaga) -->
-        <p class="station-sub">sragen.radioislam.my.id</p>
-
-        <!-- ======================================================= -->
+        <!-- Elemen Kontainer Teks Dinamis -->
+        <h2 class="station-title" id="customTitle"></h2> 
+        <p class="station-sub" id="customSubtitle"></p>
 
         <!-- Wadah Iframe dengan Fitur Manual Crop -->
         <div class="iframe-container">
@@ -140,6 +125,17 @@
     </div>
 
     <script>
+        // =======================================================
+        // SILAHKAN UBAH TULISAN DI BAWAH INI SETIAP SAAT:
+        // =======================================================
+        const teksJudulAtas = "Radio Islam Sragen";
+        const teksLinkBawah = "sragen.radioislam.my.id";
+        // =======================================================
+
+        // Menampilkan teks ke dalam aplikasi secara otomatis
+        document.getElementById("customTitle").textContent = teksJudulAtas;
+        document.getElementById("customSubtitle").textContent = teksLinkBawah;
+
         // Mengunci zoom layar otomatis
         document.addEventListener('touchmove', function(e) {
             if (e.scale !== 1) { e.preventDefault(); }
