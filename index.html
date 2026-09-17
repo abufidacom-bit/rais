@@ -7,9 +7,11 @@
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1b4d3e">
+    
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <style>
         /* KUNCI TOTAL LAYAR UTAMA */
         html, body {
@@ -31,7 +33,7 @@
             user-select: none;
             box-sizing: border-box;
         }
-        
+
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
             background: #1e1e1e;
@@ -39,7 +41,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             text-align: center;
-            width: 400px; /* DIUBAH DI SINI: Diperlebar dari 340px ke 380px agar kartu muat */
+            width: 400px; /* Diperlebar dari 340px ke 480px agar kartu muat */
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
@@ -56,8 +58,7 @@
             justify-content: center;
             /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
-            font-size: 26px;
-            /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
+            font-size: 26px; /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
             color: #ffffff;
             font-weight: bold;
             direction: rtl; /* Memastikan urutan penulisan Arab dari kanan ke kiri */
@@ -76,6 +77,14 @@
             color: #888;
         }
 
+        /* Teks Pengganti Frame Sumber */
+        .station-description {
+            margin: 10px 0 15px 0;
+            font-size: 13px;
+            color: #888;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         /* Pembungkus Jendela (Masking / Topeng Pemotong) */
         .iframe-container {
             position: relative;
@@ -84,12 +93,11 @@
             overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */
             background: #151515;
             border: 1px solid #2d2d2d;
-            
             /* ======================================================= */
-            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI)        */
+            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI) */
             /* ======================================================= */
-            height: 83px;      /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
-            --crop-left: -50px; /* DIUBAH DI SINI: Geser lebih ke kiri (sebelumnya -50px) agar konten tengah tetap pas */
+            height: 83px; /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
+            --crop-left: -50px; /* Geser lebih ke kiri agar konten tengah tetap pas */
             --crop-top: -135px; /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
             /* ======================================================= */
         }
@@ -97,7 +105,7 @@
         /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */
         iframe {
             position: absolute;
-            width: 480px; /* DIUBAH DI SINI: Lebar asli iframe ditambah dari 440px ke 480px */
+            width: 480px; /* Lebar asli iframe ditambah dari 440px ke 480px */
             height: 445px;
             border: none;
             overflow: hidden !important;
@@ -109,11 +117,15 @@
     </style>
 </head>
 <body>
+
     <div class="player-card">
         <!-- Bendera diganti dengan teks Arab Raais berharakat -->
         <div class="logo-placeholder">رَائِس</div>
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">sragen.radioislam.my.id</p>
+        
+        <!-- Teks Baru Pengganti Info Sumber Frame -->
+        <p class="station-description">Lantunan Murotal dan Kajian Islam Ilmiah</p>
 
         <!-- Wadah Iframe dengan Fitur Manual Crop -->
         <div class="iframe-container">
