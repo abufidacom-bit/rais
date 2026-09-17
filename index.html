@@ -43,73 +43,67 @@
             box-sizing: border-box; 
             touch-action: none; 
         } 
-        /* LOGO DENGAN TEKS ARAB RAAIS WARNA EMAS */
         .logo-placeholder { 
-            width: 110px;         
-            height: 110px;       
+            width: 80px; 
+            height: 80px; 
             background: #1b4d3e; 
             border-radius: 50%; 
-            margin: 5px auto 15px; 
+            margin: 0 auto 12px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             
-            font-family: 'Noto Nastaliq Urdu', 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
-            font-size: 36px;     
+            /* Konfigurasi Font Arab Khusus */
+            font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
+            font-size: 26px;     /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
+            color: #ffffff;      
             font-weight: bold;
+            direction: rtl;      /* Memastikan urutan penulisan Arab dari kanan ke kiri */
             
-            background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #c0392b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
-            direction: rtl;      
         } 
-        /* Jarak Judul Disesuaikan */
         .station-title { 
-            margin: 5px 0 22px 0; 
+            margin: 5px 0; 
             font-size: 22px; 
             color: #e0e0e0; 
         } 
+        .station-sub { 
+            margin: 0 0 15px 0; 
+            font-size: 13px; 
+            color: #888; 
+        } 
         
-        /* KUNCI UKURAN BINGKAI LUAR (IFRAME CONTAINER) */ 
+        /* Pembungkus Jendela (Masking / Topeng Pemotong) */ 
         .iframe-container { 
             position: relative; 
-            width: 288px;              
-            height: 83px;              
-            max-width: 288px !important;
-            max-height: 83px !important;
-            min-width: 288px !important;
-            min-height: 83px !important;
+            width: 100%; 
             border-radius: 12px; 
-            overflow: hidden !important; 
+            overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */ 
             background: #151515; 
             border: 1px solid #2d2d2d; 
-            margin: 0 auto;            
 
             /* ======================================================= */
             /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI)        */
             /* ======================================================= */
-            --crop-left: -50px;  
-            --crop-top: -135px;  
+            height: 83px;      /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
+            --crop-left: -50px;  /* 2. Geser ke kiri (Gunakan minus untuk memotong sisi kiri) */
+            --crop-top: -135px;  /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
             /* ======================================================= */
         } 
         
-        /* KUNCI UKURAN APLIKASI YANG DIBUNGKUS (IFRAME TARGET) */ 
+        /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */ 
         iframe { 
-            position: absolute; 
-            width: 440px !important;     
-            height: 445px !important;    
-            max-width: 440px !important;
-            max-height: 445px !important;
-            min-width: 440px !important;
-            min-height: 445px !important;
+            position: absolute;
+            
+            /* Tetap pertahankan resolusi asli player agar layout internalnya tidak rusak */
+            width: 440px;  
+            height: 445px; 
+            
             border: none; 
             overflow: hidden !important; 
             touch-action: none; 
-            pointer-events: auto;        
             
+            /* Menggeser posisi player di balik topeng pembungkus */
             left: var(--crop-left);
             top: var(--crop-top);
         } 
@@ -118,20 +112,15 @@
 <body>
     <div class="player-card"> 
         
-        <!-- Logo Teks Arab "Raais" -->
+        <!-- Bendera diganti dengan teks Arab Raais berharakat -->
         <div class="logo-placeholder">رَائِس</div> 
         
         <h2 class="station-title">Radio Islam Sragen</h2> 
+        <p class="station-sub">sragen.radioislam.my.id</p> 
         
-        <!-- Wadah Iframe yang Sudah Diperbaiki Tautannya --> 
+        <!-- Wadah Iframe dengan Fitur Manual Crop --> 
         <div class="iframe-container"> 
-            <iframe src="https://radioislam.my.id" 
-                    allow="autoplay; encrypted-media" 
-                    scrolling="no" 
-                    title="Streamy Player"
-                    sandbox="allow-scripts "
-                    referrerpolicy="no-referrer"> 
-            </iframe> 
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"> </iframe> 
         </div> 
     </div>
 
