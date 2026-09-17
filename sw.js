@@ -1,28 +1,21 @@
-const CACHE_NAME = 'ri-sragen-direct-v1';
-const ASSETS = [
-  'https://radioislam.my.id',
-  '/manifest.json',
-  '/assets/icon-192.png',
-  '/assets/icon-512.png'
+const CACHE_NAME = 'radio-sragen-v1';
+const assets = [
+  'index.html',
+  'manifest.json'
 ];
 
+// Pemasangan Awal Aplikasi
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS);
+      return cache.addAll(assets);
     })
   );
-  self.skipWaiting();
 });
 
+// Strategi jaringan untuk memutar streaming audio secara real-time
 self.addEventListener('fetch', e => {
-  // Biarkan data streaming ditarik langsung dari jaringan tanpa cache
-  if (e.request.url.includes('radio.mp3') || e.request.url.includes('/stream')) {
-    return;
-  }
   e.respondWith(
-    caches.match(e.request).then(cachedResponse => {
-      return cachedResponse || fetch(e.request);
-    })
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
