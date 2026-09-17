@@ -43,24 +43,27 @@
             box-sizing: border-box; 
             touch-action: none; 
         } 
-        /* UKURAN LOGO DIPERBESAR SECARA PROPORSIONAL */
         .logo-placeholder { 
-            width: 110px;         /* Naik dari 80px */
-            height: 110px;       /* Naik dari 80px */
+            width: 80px; 
+            height: 80px; 
             background: #1b4d3e; 
             border-radius: 50%; 
-            margin: 5px auto 15px; 
+            margin: 0 auto 12px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 48px;     /* Ukuran emoji dinaikkan dari 32px agar seimbang */
+            font-size: 32px; 
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4); 
         } 
-        /* JARAK JUDUL DISESUAIKAN */
         .station-title { 
-            margin: 5px 0 22px 0; /* Mengatur margin bawah agar jarak ke bingkai di bawahnya tetap presisi */
+            margin: 5px 0; 
             font-size: 22px; 
             color: #e0e0e0; 
+        } 
+        .station-sub { 
+            margin: 0 0 15px 0; 
+            font-size: 13px; 
+            color: #888; 
         } 
         
         /* Pembungkus Jendela (Masking / Topeng Pemotong) */ 
@@ -83,7 +86,7 @@
         
         /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */ 
         iframe { 
-            position: absolute; 
+            position: absolute;
             
             /* Tetap pertahankan resolusi asli player agar layout internalnya tidak rusak */
             width: 440px;  
@@ -101,11 +104,9 @@
 </head>
 <body>
     <div class="player-card"> 
-        <!-- Logo lingkaran dan isi bendera yang sudah diperbesar -->
         <div class="logo-placeholder">🇲🇨</div> 
-        
-        <!-- Teks baris pertama tetap utuh -->
         <h2 class="station-title">Radio Islam Sragen</h2> 
+        <p class="station-sub">sragen.radioislam.my.id</p> 
         
         <!-- Wadah Iframe dengan Fitur Manual Crop --> 
         <div class="iframe-container"> 
