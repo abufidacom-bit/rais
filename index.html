@@ -7,11 +7,9 @@
     <!-- Hubungkan ke file Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1b4d3e">
-    
     <!-- Pengaturan Khusus iOS/Safari PWA Standalone -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <style>
         /* KUNCI TOTAL LAYAR UTAMA */
         html, body {
@@ -110,25 +108,27 @@
 
         /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (MAKSIMAL 10 BARIS) */
         .info-text-container {
-            width: 380px;               /* Disesuaikan agar sejajar rapi dengan lebar kartu pemutar */
-            max-height: 200px;          /* Batas maksimal tinggi untuk ±10 baris teks (13px * 1.5 line-height * 10) */
-            overflow-y: auto;           /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
+            width: 350px; /* Disesuaikan sama dengan lebar kartu pemutar */
+            max-height: 200px; /* Batas maksimal tinggi untuk ±10 baris teks */
+            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
-            text-align: left;           /* Membuat teks rata kiri agar mudah dibaca jika panjang */
+            text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 13px;
-            line-height: 1.5;           /* Jarak antar baris yang ideal */
-            color: #b0b0b0;             /* Warna abu-abu terang agar nyaman di mata */
-            word-wrap: break-word;      /* Memaksa kata panjang putus dan lanjut ke baris bawahnya */
-            white-space: normal;        /* Ketentuan otomatis membungkus teks ke baris baru jika tidak muat */
-            padding: 0 5px;
-            user-select: text;          /* Mengizinkan teks ini untuk bisa disalin/blok jika diperlukan */
-            touch-action: pan-y;        /* Mengizinkan scroll khusus pada area teks ini */
+            line-height: 1.5;
+            color: #b0b0b0;
+            word-wrap: break-word;
+            white-space: normal;
+            padding: 0 15px; /* Ditambahkan padding kanan dan kiri agar margin teks lebih lebar */
+            box-sizing: border-box; /* Memastikan padding tidak merusak ukuran lebar utama */
+            user-select: text;
+            touch-action: pan-y;
         }
 
         /* Modifikasi tampilan scrollbar agar terlihat minimalis dan modern */
         .info-text-container::-webkit-scrollbar {
             width: 4px;
         }
+
         .info-text-container::-webkit-scrollbar-thumb {
             background: #2d2d2d;
             border-radius: 10px;
@@ -142,14 +142,12 @@
         <div class="logo-placeholder">رَائِس</div>
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
-
         <div class="iframe-container">
             <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
-    <!-- AREA TEKS BARU DI BAWAH KARTU PEMUTAR (Maksimal 10 Baris) -->
-    <!-- Anda dapat memasukkan atau mengganti teks panjang Anda di dalam tag div ini -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR -->
     <div class="info-text-container">
         Silakan masukkan teks informasi tambahan Anda di sini. Jika teks yang Anda masukkan sangat panjang dan melebihi lebar batas area ini, sistem secara otomatis akan melanjutkan tulisan tersebut ke baris di bawahnya dengan rapi. Area ini dirancang khusus untuk memuat hingga maksimal 10 baris teks tanpa merusak tata letak komponen aplikasi PWA utama di atasnya.
     </div>
@@ -158,7 +156,7 @@
         // Mengizinkan scroll internal hanya untuk kontainer teks bawah agar PWA tidak kaku
         document.addEventListener('touchmove', function(e) {
             if (e.target.closest('.info-text-container')) {
-                return; 
+                return;
             }
             if (e.scale !== 1) {
                 e.preventDefault();
