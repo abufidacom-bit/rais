@@ -17,7 +17,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            /* PERUBAHAN: Latar belakang gradasi gelap pekat dan hijau botol intens untuk memunculkan bias dispersi kaca kristal */
+            /* PERUBAHAN: Mengubah latar belakang ke gradasi gelap intens dan hijau botol murni agar pembiasan kaca kristal menyala sempurna */
             background: linear-gradient(145deg, #070a09 0%, #113329 60%, #1b4d3e 100%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,17 +35,17 @@
 
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
-            /* PERUBAHAN: Implementasi Hyper-Realistic Glassmorphism */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.18) 100%); 
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            /* PERUBAHAN: Menerapkan Efek Hyper-Realistic Kaca Kristal Nyata Bergradasi */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 100%); 
+            backdrop-filter: blur(35px) saturate(180%);
+            -webkit-backdrop-filter: blur(35px) saturate(180%);
             
-            /* Efek bevel menggunakan border gradasi kilau tipis transparan */
+            /* Efek Bevel: Garis pinggir menggunakan gradasi agar sisi atas memantulkan cahaya dan sisi bawah meredup alami */
             border: 1.5px solid transparent;
-            border-image: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.08) 100%) 1;
+            border-image: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.05) 100%) 1;
             background-clip: padding-box;
             
-            /* Kedalaman Fisik (Triple Layer Shadow): Ambient, Drop, dan Inset Glow sisi atas */
+            /* Bayangan Fisik 3 Lapisan (Ambient, Drop, dan Inset Glow putih tebal di sisi dalam atas) */
             box-shadow: 
                 0 8px 16px 0 rgba(0, 0, 0, 0.35),
                 0 25px 50px 0 rgba(0, 0, 0, 0.5),
@@ -83,8 +83,8 @@
         .station-title {
             margin: 5px 0;
             font-size: 25px;
-            color: #ffffff; /* PERUBAHAN: Putih murni dengan bayangan tajam agar teks melayang kokoh di atas kaca mengkilap */
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            color: #ffffff; /* PERUBAHAN: Diubah ke putih bersih dengan bayangan agar teks terbaca kuat di atas kaca mengkilap */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
             font-weight: 600;
         }
 
@@ -104,12 +104,12 @@
             border-radius: 12px;
             overflow: hidden !important;
             
-            /* PERUBAHAN: Pembungkus frame menggunakan kaca gelap transparan agar kontras widget pemutar audio lebih dalam */
-            background: rgba(0, 0, 0, 0.35);
+            /* PERUBAHAN: Menerapkan kaca gelap transparan berdimensi agar pemutar audio di dalamnya terlihat menonjol */
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
             
             height: 83px;
             --crop-left: -50px;
@@ -164,7 +164,7 @@
         }
 
         .info-text-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.25); /* PERUBAHAN: Scrollbar tipis semi-kaca */
+            background: rgba(255, 255, 255, 0.25); /* PERUBAHAN: Scrollbar disesuaikan bertema kaca transparan */
             border-radius: 10px;
         }
 
@@ -172,7 +172,7 @@
         .dev-tag {
             text-align: center;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.55); /* PERUBAHAN: Penyesuaian kecerahan teks agar tetap terbaca pada bg gelap */
+            color: rgba(255, 255, 255, 0.55); /* PERUBAHAN: Sedikit diterangkan agar tetap kontras pada latar belakang gradasi baru */
             margin-top: 15px;
             width: 373px;
             font-weight: 500;
