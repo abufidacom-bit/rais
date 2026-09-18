@@ -17,12 +17,8 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            
-            /* ======================================================= */
-            /* 1. UBAH WARNA BACKGROUND HALAMAN WEB DI SINI            */
-            /* ======================================================= */
-            background-color: #121212; /* <-- Ganti kode hex ini untuk ubah latar web */
-            
+            /* PERUBAHAN: Mengubah latar belakang ke gradasi gelap agar efek glassmorphism terlihat berkilau */
+            background: linear-gradient(135deg, #0e0e0e 0%, #1b4d3e 100%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -39,11 +35,11 @@
 
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
-            
-            /* ======================================================= */
-            /* 2. UBAH WARNA BACKGROUND KARTU PEMUTAR DI SINI          */
-            /* ======================================================= */
-            background: #1e1e1e; /* <-- Ganti kode hex ini untuk ubah latar kartu */
+            /* PERUBAHAN: Menerapkan Glassmorphism Putih */
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             
             padding: 25px;
             border-radius: 20px;
@@ -98,11 +94,11 @@
             border-radius: 12px;
             overflow: hidden !important;
             
-            /* ======================================================= */
-            /* 3. UBAH WARNA BACKGROUND PEMBUNGKUS FRAME DI SINI       */
-            /* ======================================================= */
-            background: #151515; /* Ganti ini untuk ubah warna sela pemotong jika ada */
-            border: 1px solid #2d2d2d; /* Ganti kode hex ini untuk warna border pembungkus */
+            /* PERUBAHAN: Menerapkan Glassmorphism Putih yang sedikit lebih gelap agar konten iframe kontras */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             
             height: 83px;
             --crop-left: -50px;
