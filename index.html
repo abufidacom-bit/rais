@@ -41,7 +41,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             text-align: center;
-            width: 400px; /* Diperlebar dari 340px ke 480px agar kartu muat */
+            width: 400px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
@@ -58,10 +58,10 @@
             justify-content: center;
             /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
-            font-size: 26px; /* Disesuaikan agar teks berharakat pas di dalam lingkaran 80px */
+            font-size: 26px;
             color: #ffffff;
             font-weight: bold;
-            direction: rtl; /* Memastikan urutan penulisan Arab dari kanan ke kiri */
+            direction: rtl;
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
         }
 
@@ -71,40 +71,36 @@
             color: #e0e0e0;
         }
 
-        /* Gaya teks baris kedua pengganti info sumber lama */
+        /* Gaya teks baris kedua - Diubah spasi dan warnanya */
         .station-sub {
-            margin: 0 0 20px 0;
+            margin: 0 0 12px 0; /* Jarak spasi dikurangi ke 12px agar lebih rapat */
             font-size: 13px;
-            color: #888;
+            color: #ffeb3b;     /* Warna diganti menjadi Kuning Cerah */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 500;   /* Sedikit dipertebal agar warna kuningnya jelas terbaca */
         }
 
         /* Pembungkus Jendela (Masking / Topeng Pemotong) */
         .iframe-container {
             position: relative;
-            width: 100%; /* Otomatis melebar mengikuti .player-card */
+            width: 100%;
             border-radius: 12px;
-            overflow: hidden !important; /* Memotong bagian iframe yang keluar batas */
+            overflow: hidden !important;
             background: #151515;
             border: 1px solid #2d2d2d;
-            /* ======================================================= */
-            /* PENGATURAN CROP MANUAL (UBAH ANGKA DI BAWAH INI) */
-            /* ======================================================= */
-            height: 83px; /* 1. Atur TINGGI HASIL CROP yang ingin diperlihatkan */
-            --crop-left: -50px; /* Geser lebih ke kiri agar konten tengah tetap pas */
-            --crop-top: -135px; /* 3. Geser ke atas (Gunakan minus untuk memotong sisi atas) */
-            /* ======================================================= */
+            height: 83px;
+            --crop-left: -50px;
+            --crop-top: -135px;
         }
 
-        /* Aplikasi Target yang Dibungkus (Ukuran Tetap Dipertahankan) */
+        /* Aplikasi Target yang Dibungkus */
         iframe {
             position: absolute;
-            width: 480px; /* Lebar asli iframe ditambah dari 440px ke 480px */
+            width: 480px;
             height: 445px;
             border: none;
             overflow: hidden !important;
             touch-action: none;
-            /* Menggeser posisi player di balik topeng pembungkus */
             left: var(--crop-left);
             top: var(--crop-top);
         }
@@ -117,12 +113,12 @@
         <div class="logo-placeholder">رَائِس</div>
         <h2 class="station-title">Radio Islam Sragen</h2>
         
-        <!-- Baris kedua lama telah dihapus dan diganti teks baru Anda -->
+        <!-- Teks Baru Warna Kuning Cerah dengan Spasi Lebih Rapat -->
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
 
         <!-- Wadah Iframe dengan Fitur Manual Crop -->
         <div class="iframe-container">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
