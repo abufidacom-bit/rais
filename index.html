@@ -118,7 +118,6 @@
             background: #2d2d2d;
             border-radius: 10px;
         }
-        /* Indikator Loading Sementara */
         .loading-text {
             color: #888888;
             font-style: italic;
@@ -139,45 +138,58 @@
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Terhubung otomatis ke Google Sheets) -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR -->
     <div class="info-text-container" id="info-text">
         <div class="loading-text">Memuat informasi terbaru...</div>
     </div>
 
     <script>
-        // ID SPREADSHEET BERDASARKAN LINK ANDA
+        // Menggunakan ID Google Spreadsheet milik Anda
         const SPREADSHEET_ID = '1Z2v5GkZaNVr3WqJS-g1Tw3-fnvzklUoTa9e1MLJaCiM';
-        
-        // Catatan: Jika nama tab di pojok kiri bawah Google Sheets Anda bukan Sheet1 (misal: Lembar1), silakan ganti teks di bawah ini
         const SHEET_NAME = 'Sheet1'; 
         
-        // Menggunakan endpoint Google Visualization API untuk mengambil data dalam format JSON publik
-        const url = `https://google.com{SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+        // PEMBERSIHAN KODE: Menambahkan &headers=0 agar baris pertama dibaca sebagai teks biasa, bukan kepala tabel.
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}&headers=0`;
 
         async function fetchInfoText() {
             try {
                 const response = await fetch(url);
+                if (!response.ok) throw new Error('Network error');
+                
                 const text = await response.text();
                 
-                // Membersihkan pembungkus teks bawaan dari Google JSON response
-                const jsonText = text.substring(47, text.length - 2);
+                // Proses pemotongan teks respons agar mendapatkan format JSON murni
+                const startPos = text.indexOf('{');
+                const endPos = text.lastIndexOf('}');
+                if (startPos === -1 || endPos === -1) throw new Error('Invalid JSON format');
+                
+                const jsonText = text.substring(startPos, endPos + 1);
                 const data = JSON.parse(jsonText);
                 
-                // Mengambil nilai teks dari Sel A1 (Baris pertama, Kolom pertama)
-                const infoText = data.table.rows[0].c[0].v;
+                let infoText = "";
+
+                // Metode Cek Fleksibel: Cek kolom header dahulu, jika kosong cek baris pertama data
+                if (data.table.cols && data.table.cols[0] && data.table.cols[0].label) {
+                    infoText = data.table.cols[0].label;
+                } else if (data.table.rows && data.table.rows[0] && data.table.rows[0].c && data.table.rows[0].c[0]) {
+                    infoText = data.table.rows[0].c[0].v;
+                }
+
+                // Jika berhasil mendapatkan teks, tampilkan ke layar
+                if (infoText && infoText.trim() !== "") {
+                    document.getElementById('info-text').innerText = infoText;
+                } else {
+                    document.getElementById('info-text').innerHTML = "<span style='color:#888; font-size:14px; display:block; text-align:center;'>Kotak A1 di Google Sheets masih kosong. Silakan isi teks terlebih dahulu.</span>";
+                }
                 
-                // Memasukkan teks dari spreadsheet ke dalam kontainer HTML
-                document.getElementById('info-text').innerText = infoText;
             } catch (error) {
-                console.error('Gagal mengambil data dari Google Sheets:', error);
-                document.getElementById('info-text').innerHTML = "<span style='color:#ff6b6b; font-size:14px; display:block; text-align:center;'>Gagal memuat informasi. Pastikan akses Google Sheets sudah disetel ke 'Siapa saja yang memiliki link'.</span>";
+                console.error('Error detail:', error);
+                document.getElementById('info-text').innerHTML = "<span style='color:#ff6b6b; font-size:14px; display:block; text-align:center;'>Gagal memuat informasi.<br><small style='color:#aaa;'>Pastikan tab bernama 'Sheet1' dan sudah disetel publik.</small></span>";
             }
         }
 
-        // Menjalankan penarikan data setelah struktur web siap
         window.addEventListener('DOMContentLoaded', fetchInfoText);
 
-        // Mengizinkan scroll internal hanya untuk kontainer teks bawah agar PWA tidak kaku
         document.addEventListener('touchmove', function(e) {
             if (e.target.closest('.info-text-container')) {
                 return;
