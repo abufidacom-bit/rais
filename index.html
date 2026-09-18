@@ -24,7 +24,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 4vh;
+            padding-top: 10px; /* PERUBAHAN: Diubah menjadi 10px agar mepet ke atas dengan sedikit jarak */
             overflow: hidden !important;
             position: fixed;
             touch-action: none;
@@ -109,7 +109,7 @@
         /* KONFIGURASI AREA TEKS DI BAWAH KARTU (MAKSIMAL 10 BARIS TERPISAH) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            max-height: 350px; /* Batas maksimal tinggi dikembalikan untuk ±10 baris teks */
+            max-height: 350px; /* Batas maksimal tinggi untuk ±10 baris teks */
             overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
