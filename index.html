@@ -24,7 +24,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 10px; /* PERUBAHAN: Diubah menjadi 10px agar mepet ke atas dengan sedikit jarak */
+            padding-top: 4vh;
             overflow: hidden !important;
             position: fixed;
             touch-action: none;
@@ -106,7 +106,7 @@
             top: var(--crop-top);
         }
 
-        /* KONFIGURASI AREA TEKS DI BAWAH KARTU (MAKSIMAL 10 BARIS TERPISAH) */
+        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (MAKSIMAL 10 BARIS) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
             max-height: 350px; /* Batas maksimal tinggi untuk ±10 baris teks */
@@ -122,14 +122,6 @@
             box-sizing: border-box; /* Memastikan padding tidak merusak ukuran lebar utama */
             user-select: text;
             touch-action: pan-y;
-        }
-
-        /* Mengatur jarak spasi antar baris kalimat yang terpisah */
-        .info-text-container p {
-            margin: 0 0 8px 0;
-        }
-        .info-text-container p:last-child {
-            margin-bottom: 0;
         }
 
         /* Modifikasi tampilan scrollbar agar terlihat minimalis dan modern */
@@ -163,25 +155,16 @@
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         <div class="iframe-container">
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (10 BARIS SALING TERPISAH) -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR -->
     <div class="info-text-container">
-        <p>1. Ini adalah baris informasi pertama yang mandiri.</p>
-        <p>2. Ini adalah baris informasi kedua yang terpisah.</p>
-        <p>3. Ini adalah baris informasi ketiga untuk maklumat stasiun.</p>
-        <p>4. Ini adalah baris informasi keempat jadwal kajian ilmiah.</p>
-        <p>5. Ini adalah baris informasi kelima seputar program murotal.</p>
-        <p>6. Ini adalah baris informasi keenam mengenai pembacaan kitab.</p>
-        <p>7. Ini adalah baris informasi ketujuh update siaran harian.</p>
-        <p>8. Ini adalah baris informasi kedelapan tanya jawab interaktif.</p>
-        <p>9. Ini adalah baris informasi kesembilan catatan faedah dakwah.</p>
-        <p>10. Ini adalah baris informasi kesepuluh akhir dari susunan teks.</p>
+        Silakan masukkan Silakan masukkan teks informasi tambahan Anda di sini. Jika teks yang Anda masukkan sangat panjang dan melebihi lebar batas area ini, sistem secara otomatisteks informasi tambahan Anda di sini. Jika teks yang Anda masukkan sangat panjang dan melebihi lebar batas area ini, sistem secara otomatis akan melanjutkan tulisan tersebut ke baris di bawahnya dengan rapi. Area ini dirancang khusus untuk memuat hingga maksimal 10 baris teks tanpa merusak tata letak komponen aplikasi PWA utama di atasnya.
     </div>
 
-    <!-- TEKS @dev.afcom -->
+    <!-- TEKS BARU @dev.afcom -->
     <div class="dev-tag">
         @dev.afcom
     </div>
