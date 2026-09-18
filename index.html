@@ -106,15 +106,18 @@
             top: var(--crop-top);
         }
 
-        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (MAKSIMAL 10 BARIS) */
+        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (PAS SAMA DENGAN 10 BARIS) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            max-height: 350px; /* Batas maksimal tinggi untuk ±10 baris teks */
+            
+            /* PERUBAHAN: max-height dikunci ke 291px agar pas menampung maks 10 baris kalimat tunggal */
+            max-height: 291px; 
+            
             overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 17px;
-            line-height: 1.5;
+            line-height: 1.5; /* 1 baris = 25.5px */
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
@@ -126,8 +129,9 @@
 
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
-            margin: 0 0 4px 0;
+            margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
         }
+
         .info-text-container p:last-child {
             margin-bottom: 0;
         }
@@ -167,19 +171,19 @@
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (11 BARIS SALING TERPISAH) -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas maks 10 baris kalimat tunggal) -->
     <div class="info-text-container">
         <p>Jadwal kajian islam ilmiyah</p>
         <p>di plupuh dan sekitarnya</p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+        <p>Baris ke-3 teks simulasi</p>
+        <p>Baris ke-4 teks simulasi</p>
+        <p>Baris ke-5 teks simulasi</p>
+        <p>Baris ke-6 teks simulasi</p>
+        <p>Baris ke-7 teks simulasi</p>
+        <p>Baris ke-8 teks simulasi</p>
+        <p>Baris ke-9 teks simulasi</p>
+        <p>Baris ke-10 teks simulasi</p>
+        <p>Baris ke-11 (Ini akan tersembunyi / harus di-scroll karena batas maks 10 baris)</p>
     </div>
 
     <!-- TEKS BARU @dev.afcom -->
