@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Radio Islam Sragen</title>
-    <!-- Hubungkan ke file Manifest PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1b4d3e">
-    <!-- Pengaturan Khusus iOS/Safari PWA Standalone -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <style>
         /* KUNCI TOTAL LAYAR UTAMA */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            /* PERUBAHAN: Mengubah latar belakang ke gradasi gelap agar efek glassmorphism terlihat berkilau */
-            background: linear-gradient(135deg, #0e0e0e 0%, #1b4d3e 100%);
+            /* DIBUAT LEBIH KONTRAS: Perpaduan hitam pekat dan hijau botol agar pantulan kaca putih makin menyala */
+            background: linear-gradient(145deg, #070a09 0%, #113329 60%, #1b4d3e 100%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 10px; /* PERUBAHAN: Menggeser tampilan hingga mentok ke atas dengan sedikit jarak */
+            padding-top: 10px;
             overflow: hidden !important;
             position: fixed;
             touch-action: none;
@@ -35,21 +22,27 @@
 
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
-            /* PERUBAHAN: Menerapkan Glassmorphism Putih */
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* MENCELOK: Menaikkan opasitas putih ke 25% dan memperkuat efek blur kaca film */
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            
+            /* MENCELOK: Border putih dibuat lebih terang (35%) untuk efek kilauan sudut kaca yang tajam */
+            border: 1px solid rgba(255, 255, 255, 0.35);
             
             padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            
+            /* MENCELOK: Bayangan hitam diperluas dan dipekatkan agar kartu terlihat sangat timbul (3D) */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Efek highlight cahaya di sisi atas kartu */
+                        
             text-align: center;
             width: 400px;
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
-            margin-bottom: 20px; /* Spasi antara kartu dan teks di bawahnya */
+            margin-bottom: 20px;
         }
 
         .logo-placeholder {
@@ -61,7 +54,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
             font-size: 26px;
             color: #ffffff;
@@ -74,7 +66,8 @@
         .station-title {
             margin: 5px 0;
             font-size: 25px;
-            color: #E2E8D5;
+            color: #ffffff; /* Mengubah warna ke putih bersih agar kontras dengan kartu kaca yang menebal */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sedikit bayangan teks agar lebih terbaca */
             font-weight: 600;
         }
 
@@ -94,10 +87,10 @@
             border-radius: 12px;
             overflow: hidden !important;
             
-            /* PERUBAHAN: Menerapkan Glassmorphism Putih yang sedikit lebih gelap agar konten iframe kontras */
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            /* MENCELOK: Memberikan kontras gelap-kaca di dalam kartu utama agar pemutar audio menonjol */
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             
             height: 83px;
@@ -119,30 +112,25 @@
 
         /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (TINGGI TETAP 10 BARIS) */
         .info-text-container {
-            width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            
-            /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
+            width: 373px;
             height: 291px; 
-            
-            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
+            overflow-y: auto;
             overflow-x: hidden;
-            text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
+            text-align: justify;
             font-size: 17px;
-            line-height: 1.5; /* 1 baris = 25.5px */
+            line-height: 1.5;
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
-            padding: 0 15px; /* Ditambahkan padding kanan dan kiri agar margin teks lebih lebar */
-            box-sizing: border-box; /* Memastikan padding tidak merusak ukuran lebar utama */
+            padding: 0 15px;
+            box-sizing: border-box;
             user-select: text;
             touch-action: pan-y;
         }
 
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
-            margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
-            
-            /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
+            margin: 0 0 4px 0;
             min-height: 25.5px; 
         }
 
@@ -156,7 +144,7 @@
         }
 
         .info-text-container::-webkit-scrollbar-thumb {
-            background: #2d2d2d;
+            background: rgba(255, 255, 255, 0.2); /* Scrollbar mengikuti konsep kaca transparan */
             border-radius: 10px;
         }
 
@@ -164,64 +152,10 @@
         .dev-tag {
             text-align: center;
             font-size: 13px;
-            color: #888888;
+            color: rgba(255, 255, 255, 0.5); /* Dibuat sedikit terang agar tetap terbaca di bg baru */
             margin-top: 15px;
             width: 373px;
             font-weight: 500;
             letter-spacing: 0.5px;
             user-select: none;
         }
-    </style>
-</head>
-<body>
-
-    <!-- Kartu Pemutar Utama -->
-    <div class="player-card">
-        <div class="logo-placeholder">رَائِس</div>
-        <h2 class="station-title">Radio Islam Sragen</h2>
-        <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
-        <div class="iframe-container">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
-        </div>
-    </div>
-
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas maks 10 baris kalimat tunggal) -->
-    <div class="info-text-container">
-        <p>Jadwal kajian islam ilmiyah</p>
-        <p>di plupuh dan sekitarnya</p>
-        <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
-        <p></p> <!-- Baris kosong ke-4 -->
-        <p></p> <!-- Baris kosong ke-5 -->
-        <p></p> <!-- Baris kosong ke-6 -->
-        <p></p> <!-- Baris kosong ke-7 -->
-        <p></p> <!-- Baris kosong ke-8 -->
-        <p></p> <!-- Baris kosong ke-9 -->
-        <p>Baris ke-10 teks simulasi</p>
-    </div>
-
-    <!-- TEKS BARU @dev.afcom -->
-    <div class="dev-tag">
-        @dev.afcom
-    </div>
-
-    <script>
-        // Mengizinkan scroll internal hanya untuk kontainer teks bawah agar PWA tidak kaku
-        document.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.info-text-container')) {
-                return;
-            }
-            if (e.scale !== 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('PWA Manual Crop Sukses Diaktifkan!'))
-                    .catch(err => console.log('PWA Gagal:', err));
-            });
-        }
-    </script>
-</body>
-</html>
