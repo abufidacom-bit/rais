@@ -106,12 +106,12 @@
             top: var(--crop-top);
         }
 
-        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (PAS SAMA DENGAN 10 BARIS) */
+        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (TINGGI TETAP 10 BARIS) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
             
-            /* PERUBAHAN: max-height dikunci ke 291px agar pas menampung maks 10 baris kalimat tunggal */
-            max-height: 291px; 
+            /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
+            height: 291px; 
             
             overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
@@ -130,6 +130,9 @@
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
             margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
+            
+            /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
+            min-height: 25.5px; 
         }
 
         .info-text-container p:last-child {
@@ -175,15 +178,14 @@
     <div class="info-text-container">
         <p>Jadwal kajian islam ilmiyah</p>
         <p>di plupuh dan sekitarnya</p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>  </p>
-        <p>Baris ke-11 (Ini akan tersembunyi / harus di-scroll karena batas maks 10 baris)</p>
+        <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
+        <p></p> <!-- Baris kosong ke-4 -->
+        <p></p> <!-- Baris kosong ke-5 -->
+        <p></p> <!-- Baris kosong ke-6 -->
+        <p></p> <!-- Baris kosong ke-7 -->
+        <p></p> <!-- Baris kosong ke-8 -->
+        <p></p> <!-- Baris kosong ke-9 -->
+        <p>Baris ke-10 teks simulasi</p>
     </div>
 
     <!-- TEKS BARU @dev.afcom -->
