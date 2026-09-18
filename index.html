@@ -106,14 +106,12 @@
             top: var(--crop-top);
         }
 
-        /* KONFIGURASI AREA TEKS DI BAWAH KARTU (PAS SAMA DENGAN 13 BARIS) */
+        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (TINGGI TETAP 12 BARIS) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            
-            /* PERUBAHAN: Diubah ke 355.5px agar pas menampung total 13 baris teks */
-            height: 355.5px; 
-            
-            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 13 baris */
+            /* PERUBAHAN: Diubah dari 291px ke 347px agar 12 baris teks tampil utuh tanpa sembunyi/scroll */
+            height: 347px;
+            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 12 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 17px;
@@ -129,10 +127,9 @@
 
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
-            margin: 0 0 2px 0; /* Jarak antar paragraf tetap 2px */
-            
-            /* Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
-            min-height: 25.5px; 
+            margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
+            /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
+            min-height: 25.5px;
         }
 
         .info-text-container p:last-child {
@@ -174,21 +171,20 @@
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas 13 baris kalimat tunggal) -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas maks 12 baris kalimat tunggal) -->
     <div class="info-text-container">
         <p>Jadwal kajian islam ilmiyah</p>
         <p>di plupuh dan sekitarnya</p>
-        <p></p> <!-- Baris kosong ke-3 -->
+        <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
         <p></p> <!-- Baris kosong ke-4 -->
         <p></p> <!-- Baris kosong ke-5 -->
         <p></p> <!-- Baris kosong ke-6 -->
         <p></p> <!-- Baris kosong ke-7 -->
         <p></p> <!-- Baris kosong ke-8 -->
         <p></p> <!-- Baris kosong ke-9 -->
-        <p></p> <!-- Baris kosong ke-10 -->
-        <p></p> <!-- Baris kosong ke-11 -->
-        <p></p> <!-- Baris kosong ke-12 -->
-        <p>Baris ke-13 teks simulasi</p>
+        <p>Baris ke-10 teks simulasi</p>
+        <p>Baris ke-11 teks tambahan baru</p> <!-- Terlihat langsung tanpa scroll -->
+        <p>Baris ke-12 teks tambahan baru</p> <!-- Terlihat langsung tanpa scroll -->
     </div>
 
     <!-- TEKS BARU @dev.afcom -->
