@@ -106,14 +106,14 @@
             top: var(--crop-top);
         }
 
-        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (TINGGI TETAP 10 BARIS) */
+        /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (PAS SAMA DENGAN 15 BARIS) */
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
             
-            /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
-            height: 291px; 
+            /* PERUBAHAN: Diubah ke 410.5px agar pas menampung total 15 baris teks */
+            height: 410.5px; 
             
-            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
+            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 15 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 17px;
@@ -129,9 +129,10 @@
 
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
-            margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
+            /* PERUBAHAN: Jarak antar paragraf dikurangi dari 4px menjadi 2px */
+            margin: 0 0 2px 0; 
             
-            /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
+            /* Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
             min-height: 25.5px; 
         }
 
@@ -170,22 +171,27 @@
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         <div class="iframe-container">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas maks 10 baris kalimat tunggal) -->
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas 15 baris kalimat tunggal) -->
     <div class="info-text-container">
         <p>Jadwal kajian islam ilmiyah</p>
         <p>di plupuh dan sekitarnya</p>
-        <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
+        <p></p> <!-- Baris kosong ke-3 -->
         <p></p> <!-- Baris kosong ke-4 -->
         <p></p> <!-- Baris kosong ke-5 -->
         <p></p> <!-- Baris kosong ke-6 -->
         <p></p> <!-- Baris kosong ke-7 -->
         <p></p> <!-- Baris kosong ke-8 -->
         <p></p> <!-- Baris kosong ke-9 -->
-        <p>Baris ke-10 teks simulasi</p>
+        <p></p> <!-- Baris kosong ke-10 -->
+        <p></p> <!-- Baris kosong ke-11 -->
+        <p></p> <!-- Baris kosong ke-12 -->
+        <p></p> <!-- Baris kosong ke-13 -->
+        <p></p> <!-- Baris kosong ke-14 -->
+        <p>Baris ke-15 teks simulasi</p>
     </div>
 
     <!-- TEKS BARU @dev.afcom -->
