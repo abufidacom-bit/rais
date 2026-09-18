@@ -24,14 +24,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 10px; /* DIUBAH: Kartu dipepetkan ke atas dengan jarak sedikit saja (10px) */
+            padding-top: 10px;
             overflow: hidden !important;
             position: fixed;
             touch-action: none;
             user-select: none;
             box-sizing: border-box;
         }
-
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
             background: #1e1e1e;
@@ -43,9 +42,8 @@
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
-            margin-bottom: 20px; /* Spasi antara kartu dan teks di bawahnya */
+            margin-bottom: 20px;
         }
-
         .logo-placeholder {
             width: 80px;
             height: 80px;
@@ -55,7 +53,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
             font-size: 26px;
             color: #ffffff;
@@ -63,16 +60,12 @@
             direction: rtl;
             box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
         }
-
-        /* Teks Baris Pertama - Ukuran 25px */
         .station-title {
             margin: 5px 0;
             font-size: 25px;
             color: #E2E8D5;
             font-weight: 600;
         }
-
-        /* teks kedua */
         .station-sub {
             margin: 0 0 12px 0;
             font-size: 10px;
@@ -80,8 +73,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-weight: 500;
         }
-
-        /* Pembungkus Jendela (Masking / Topeng Pemotong) */
         .iframe-container {
             position: relative;
             width: 100%;
@@ -93,8 +84,6 @@
             --crop-left: -50px;
             --crop-top: -135px;
         }
-
-        /* Aplikasi Target yang Dibungkus */
         iframe {
             position: absolute;
             width: 480px;
@@ -105,33 +94,36 @@
             left: var(--crop-left);
             top: var(--crop-top);
         }
-
         /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (MAKSIMAL 10 BARIS) */
         .info-text-container {
-            width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            max-height: 350px; /* Batas maksimal tinggi untuk ±10 baris teks */
-            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
+            width: 373px;
+            max-height: 350px;
+            overflow-y: auto;
             overflow-x: hidden;
-            text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
+            text-align: justify;
             font-size: 17px;
             line-height: 1.5;
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
-            padding: 0 15px; /* Ditambahkan padding kanan dan kiri agar margin teks lebih lebar */
-            box-sizing: border-box; /* Memastikan padding tidak merusak ukuran lebar utama */
+            padding: 0 15px;
+            box-sizing: border-box;
             user-select: text;
             touch-action: pan-y;
         }
-
-        /* Modifikasi tampilan scrollbar agar terlihat minimalis dan modern */
         .info-text-container::-webkit-scrollbar {
             width: 4px;
         }
-
         .info-text-container::-webkit-scrollbar-thumb {
             background: #2d2d2d;
             border-radius: 10px;
+        }
+        /* Indikator Loading Sementara */
+        .loading-text {
+            color: #888888;
+            font-style: italic;
+            font-size: 15px;
+            text-align: center;
         }
     </style>
 </head>
@@ -143,16 +135,48 @@
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         <div class="iframe-container">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR -->
-    <div class="info-text-container">
-        Silakan masukkan Silakan masukkan teks informasi tambahan Anda di sini. Jika teks yang Anda masukkan sangat panjang dan melebihi lebar batas area ini, sistem secara otomatisteks informasi tambahan Anda di sini. Jika teks yang Anda masukkan sangat panjang dan melebihi lebar batas area ini, sistem secara otomatis akan melanjutkan tulisan tersebut ke baris di bawahnya dengan rapi. Area ini dirancang khusus untuk memuat hingga maksimal 10 baris teks tanpa merusak tata letak komponen aplikasi PWA utama di atasnya.
+    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Terhubung otomatis ke Google Sheets) -->
+    <div class="info-text-container" id="info-text">
+        <div class="loading-text">Memuat informasi terbaru...</div>
     </div>
 
     <script>
+        // ID SPREADSHEET BERDASARKAN LINK ANDA
+        const SPREADSHEET_ID = '1Z2v5GkZaNVr3WqJS-g1Tw3-fnvzklUoTa9e1MLJaCiM';
+        
+        // Catatan: Jika nama tab di pojok kiri bawah Google Sheets Anda bukan Sheet1 (misal: Lembar1), silakan ganti teks di bawah ini
+        const SHEET_NAME = 'Sheet1'; 
+        
+        // Menggunakan endpoint Google Visualization API untuk mengambil data dalam format JSON publik
+        const url = `https://google.com{SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+        async function fetchInfoText() {
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                // Membersihkan pembungkus teks bawaan dari Google JSON response
+                const jsonText = text.substring(47, text.length - 2);
+                const data = JSON.parse(jsonText);
+                
+                // Mengambil nilai teks dari Sel A1 (Baris pertama, Kolom pertama)
+                const infoText = data.table.rows[0].c[0].v;
+                
+                // Memasukkan teks dari spreadsheet ke dalam kontainer HTML
+                document.getElementById('info-text').innerText = infoText;
+            } catch (error) {
+                console.error('Gagal mengambil data dari Google Sheets:', error);
+                document.getElementById('info-text').innerHTML = "<span style='color:#ff6b6b; font-size:14px; display:block; text-align:center;'>Gagal memuat informasi. Pastikan akses Google Sheets sudah disetel ke 'Siapa saja yang memiliki link'.</span>";
+            }
+        }
+
+        // Menjalankan penarikan data setelah struktur web siap
+        window.addEventListener('DOMContentLoaded', fetchInfoText);
+
         // Mengizinkan scroll internal hanya untuk kontainer teks bawah agar PWA tidak kaku
         document.addEventListener('touchmove', function(e) {
             if (e.target.closest('.info-text-container')) {
