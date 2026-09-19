@@ -17,8 +17,8 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            /* PERUBAHAN: Latar belakang gradasi gelap pekat dan hijau botol intens untuk memunculkan bias dispersi kaca kristal */
-            background: linear-gradient(145deg, #070a09 0%, #113329 60%, #1b4d3e 100%);
+            /* PERUBAHAN: Mengubah latar belakang ke gradasi gelap agar efek glassmorphism terlihat berkilau */
+            background: linear-gradient(135deg, #0e0e0e 0%, #1b4d3e 100%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -35,22 +35,14 @@
 
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
-            /* PERUBAHAN: Implementasi Hyper-Realistic Glassmorphism Tanpa Tepian (No Border) */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 100%); 
-            backdrop-filter: blur(35px) saturate(180%);
-            -webkit-backdrop-filter: blur(35px) saturate(180%);
-            
-            /* Menghilangkan seluruh tepian border/bevel kaku agar kartu menyatu alami dengan latar belakang */
-            border: none;
-            border-radius: 20px;
-            
-            /* Kedalaman Volume Kaca Tetap Terjaga Menggunakan Bayangan 3 Lapis (Ambient, Drop, dan Inset Glow sisi atas) */
-            box-shadow: 
-                0 8px 16px 0 rgba(0, 0, 0, 0.35),
-                0 25px 50px 0 rgba(0, 0, 0, 0.5),
-                inset 0 3px 6px 0 rgba(255, 255, 255, 0.45);
-            
+            /* PERUBAHAN: Menerapkan Glassmorphism Putih */
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             text-align: center;
             width: 400px;
             border-top: 5px solid #1b4d3e;
@@ -62,12 +54,7 @@
         .logo-placeholder {
             width: 80px;
             height: 80px;
-            /* PERUBAHAN: Mengubah latar belakang logo menjadi hijau botol transparan dengan efek kaca agar serasi dengan gradasi latar belakang */
-            background: rgba(27, 77, 62, 0.65);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            
+            background: #1b4d3e;
             border-radius: 50%;
             margin: 0 auto 12px;
             display: flex;
@@ -79,17 +66,14 @@
             color: #ffffff;
             font-weight: bold;
             direction: rtl;
-            
-            /* PERUBAHAN: Memperkuat bayangan berpendar hijau botol agar terlihat lebih estetik di dalam kartu kaca */
-            box-shadow: 0 0 25px rgba(27, 77, 62, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
         }
 
         /* Teks Baris Pertama - Ukuran 25px */
         .station-title {
             margin: 5px 0;
             font-size: 25px;
-            color: #ffffff; /* PERUBAHAN: Diubah ke putih bersih dengan bayangan agar teks terbaca kuat di atas kaca mengkilap */
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            color: #E2E8D5;
             font-weight: 600;
         }
 
@@ -108,14 +92,11 @@
             width: 100%;
             border-radius: 12px;
             overflow: hidden !important;
-            
-            /* PERUBAHAN: Menggunakan kaca gelap transparan tanpa border dengan efek inset shadow untuk kontras pemutar audio */
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: none;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-            
+            /* PERUBAHAN: Menerapkan Glassmorphism Putih yang sedikit lebih gelap agar konten iframe kontras */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             height: 83px;
             --crop-left: -50px;
             --crop-top: -135px;
@@ -137,12 +118,12 @@
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
             /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
-            height: 291px; 
+            height: 345px;
             overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 17px;
-            line-height: 1.5; /* 1 baris = 25.5px */
+            line-height: 1.4; /* 1 baris = 25.5px */
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
@@ -156,7 +137,7 @@
         .info-text-container p {
             margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
             /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (17px * 1.5 = 25.5px) */
-            min-height: 25.5px; 
+            min-height: 25.5px;
         }
 
         .info-text-container p:last-child {
@@ -169,7 +150,7 @@
         }
 
         .info-text-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.25); /* PERUBAHAN: Scrollbar tipis semi-kaca tanpa sisi kaku */
+            background: #2d2d2d;
             border-radius: 10px;
         }
 
@@ -177,7 +158,7 @@
         .dev-tag {
             text-align: center;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.55); /* PERUBAHAN: Penyesuaian kecerahan teks agar tetap terbaca pada bg gelap */
+            color: #888888;
             margin-top: 15px;
             width: 373px;
             font-weight: 500;
@@ -193,28 +174,31 @@
         <div class="logo-placeholder">رَائِس</div>
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
-        <div class="iframe-container">
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+        
+        <div class="iframe-container" style="margin-bottom: 20px;">
+            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
-    </div>
 
-    <!-- AREA TEKS DI BAWAH KARTU PEMUTAR (Tinggi dikunci pas maks 10 baris kalimat tunggal) -->
-    <div class="info-text-container">
-        <p>Jadwal kajian islam ilmiyah</p>
-        <p>di plupuh dan sekitarnya</p>
-        <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
-        <p></p> <!-- Baris kosong ke-4 -->
-        <p></p> <!-- Baris kosong ke-5 -->
-        <p></p> <!-- Baris kosong ke-6 -->
-        <p></p> <!-- Baris kosong ke-7 -->
-        <p></p> <!-- Baris kosong ke-8 -->
-        <p></p> <!-- Baris kosong ke-9 -->
-        <p>Baris ke-10 teks simulasi</p>
-    </div>
+        <!-- AREA TEKS SEKARANG DI MASUKKAN KE DALAM KARTU PEMUTAR BAGIAN BAWAH -->
+        <div class="info-text-container">
+            <p>Jadwal kajian islam ilmiyah</p>
+            <p>di plupuh dan sekitarnya</p>
+            <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
+            <p></p> <!-- Baris kosong ke-4 -->
+            <p></p> <!-- Baris kosong ke-5 -->
+            <p></p> <!-- Baris kosong ke-6 -->
+            <p></p> <!-- Baris kosong ke-7 -->
+            <p></p> <!-- Baris kosong ke-8 -->
+            <p></p> <!-- Baris kosong ke-9 -->
+            <p></p> <!-- Baris kosong ke-10 -->
+            <p></p> <!-- Baris kosong ke-11 -->
+            <p>Baris ke-12 teks simulasi</p>
+        </div>
 
-    <!-- TEKS BARU @dev.afcom -->
-    <div class="dev-tag">
-        @dev.afcom
+        <!-- TEKS BARU @dev.afcom JUGA DI DALAM KARTU -->
+        <div class="dev-tag">
+            @dev.afcom
+        </div>
     </div>
 
     <script>
