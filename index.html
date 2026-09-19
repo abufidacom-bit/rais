@@ -44,7 +44,6 @@
                 0 10px 25px rgba(0,0,0,0.5),
                 0 0 18px 2px rgba(255, 255, 255, 0.18);
             text-align: center;
-            /* DIUBAH: Lebar kartu dikecilkan ke 360px agar aman di layar HP ramping */
             width: 360px;
             border-top: 5px solid #CAA347;
             box-sizing: border-box;
@@ -102,14 +101,15 @@
             height: 445px;
             border: none;
             overflow: hidden !important;
-            touch-action: none;
             left: var(--crop-left);
             top: var(--crop-top);
             z-index: 5;
+            /* MEMASTIKAN sentuhan jari tembus langsung ke tombol play di Android */
+            pointer-events: auto !important;
+            touch-action: auto !important;
         }
 
         .info-text-container {
-            /* DIUBAH: Lebar area teks disesuaikan menjadi 333px agar proporsional di dalam kartu */
             width: 333px; 
             height: 352px;
             overflow-y: auto; 
@@ -149,7 +149,6 @@
             font-size: 13px;
             color: #EDDDB8;
             margin-top: 15px;
-            /* DIUBAH: Lebar tag pengembang disesuaikan menjadi 333px agar simetris di tengah */
             width: 333px;
             font-weight: 400;
             letter-spacing: 0.5px;
@@ -165,7 +164,8 @@
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         
         <div class="iframe-container" style="margin-bottom: 20px;">
-            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <!-- PERBAIKAN: Menambahkan hak akses penuh fitur audio streaming agar suara tidak diblokir sistem -->
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media; picture-in-picture" scrolling="no" title="Streamy Player"></iframe>
         </div>
 
         <div class="info-text-container">
@@ -194,7 +194,7 @@
 
     <script>
         document.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.info-text-container')) {
+            if (e.target.closest('.info-text-container') || e.target.closest('iframe')) {
                 return;
             }
             if (e.scale !== 1) {
