@@ -17,7 +17,6 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            /* PERUBAHAN: Mengubah latar belakang ke gradasi gelap agar efek glassmorphism terlihat berkilau */
             background: linear-gradient(135deg, #0e0e0e 0%, #1b4d3e 100%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,7 +24,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 10px; /* PERUBAHAN: Menggeser tampilan hingga mentok ke atas dengan sedikit jarak */
+            padding-top: 10px; 
             overflow: hidden !important;
             position: fixed;
             touch-action: none;
@@ -35,7 +34,6 @@
 
         /* Kartu Pemutar Terkunci Presisi */
         .player-card {
-            /* PERUBAHAN: Menerapkan Glassmorphism Putih */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -48,7 +46,7 @@
             border-top: 5px solid #1b4d3e;
             box-sizing: border-box;
             touch-action: none;
-            margin-bottom: 20px; /* Spasi antara kartu dan teks di bawahnya */
+            margin-bottom: 20px; 
         }
 
         .logo-placeholder {
@@ -60,7 +58,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Konfigurasi Font Arab Khusus */
             font-family: 'Amiri', 'Traditional Arabic', 'Segoe UI', serif;
             font-size: 26px;
             color: #ffffff;
@@ -92,7 +89,6 @@
             width: 100%;
             border-radius: 12px;
             overflow: hidden !important;
-            /* PERUBAHAN: Menerapkan Glassmorphism Putih yang sedikit lebih gelap agar konten iframe kontras */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -116,28 +112,31 @@
 
         /* KONFIGURASI AREA TEKS BARU DI BAWAH KARTU (TINGGI TETAP 10 BARIS) */
         .info-text-container {
-            width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
-            /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
+            width: 373px; 
             height: 352px;
-            overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
+            overflow-y: auto; 
             overflow-x: hidden;
-            text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
+            text-align: justify; 
             font-size: 16px;
-            line-height: 1.2; /* 1 baris = 20.5px */
+            
+            /* PERUBAHAN: Mengubah jarak antar baris teks menjadi lebih rapat (1.3) */
+            line-height: 1.3; 
+            
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
-            padding: 0 15px; /* Ditambahkan padding kanan dan kiri agar margin teks lebih lebar */
-            box-sizing: border-box; /* Memastikan padding tidak merusak ukuran lebar utama */
+            padding: 0 15px; 
+            box-sizing: border-box; 
             user-select: text;
             touch-action: pan-y;
         }
 
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
-            margin: 0 0 4px 0; /* Jarak antar paragraf 4px */
-            /* PERUBAHAN: Memaksa baris kosong tetap memiliki tinggi 1 baris penuh (15px * 1.3 = 25.5px) */
-            min-height: 25.5px;
+            margin: 0 0 4px 0; 
+            
+            /* PERUBAHAN: Menyesuaikan min-height baris kosong agar mengikuti line-height 1.3 (16px * 1.3 = 20.8px) */
+            min-height: 20.8px;
         }
 
         .info-text-container p:last-child {
@@ -183,7 +182,7 @@
         <div class="info-text-container">
             <p>Jadwal kajian islam ilmiyah</p>
             <p>di plupuh dan sekitarnya</p>
-            <p></p> <!-- Baris kosong ke-3 (tetap memakan ruang tinggi) -->
+            <p></p> <!-- Baris kosong ke-3 (ikut menyempit secara presisi) -->
             <p></p> <!-- Baris kosong ke-4 -->
             <p></p> <!-- Baris kosong ke-5 -->
             <p></p> <!-- Baris kosong ke-6 -->
