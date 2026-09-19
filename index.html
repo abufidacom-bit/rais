@@ -118,10 +118,7 @@
             overflow-x: hidden;
             text-align: justify; 
             font-size: 16px;
-            
-            /* PERUBAHAN: Mengubah jarak antar baris teks menjadi lebih rapat (1.3) */
-            line-height: 1.3; 
-            
+            line-height: 1.3; /* Jarak baris rapat 1.3 */
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
@@ -134,9 +131,10 @@
         /* Mengatur keselarasan margin paragraf agar tetap rapi */
         .info-text-container p {
             margin: 0 0 4px 0; 
+            min-height: 20.8px; /* Menyelaraskan baris kosong dengan line-height 1.3 */
             
-            /* PERUBAHAN: Menyesuaikan min-height baris kosong agar mengikuti line-height 1.3 (16px * 1.3 = 20.8px) */
-            min-height: 20.8px;
+            /* PERUBAHAN: Ketebalan teks dikurangi menjadi sedikit tipis (Light) */
+            font-weight: 300; 
         }
 
         .info-text-container p:last-child {
@@ -175,14 +173,14 @@
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         
         <div class="iframe-container" style="margin-bottom: 20px;">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
 
         <!-- AREA TEKS SEKARANG DI MASUKKAN KE DALAM KARTU PEMUTAR BAGIAN BAWAH -->
         <div class="info-text-container">
             <p>Jadwal kajian islam ilmiyah</p>
             <p>di plupuh dan sekitarnya</p>
-            <p></p> <!-- Baris kosong ke-3 (ikut menyempit secara presisi) -->
+            <p></p> <!-- Baris kosong ke-3 (ikut menyempit seimbang) -->
             <p></p> <!-- Baris kosong ke-4 -->
             <p></p> <!-- Baris kosong ke-5 -->
             <p></p> <!-- Baris kosong ke-6 -->
