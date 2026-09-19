@@ -62,7 +62,12 @@
         .logo-placeholder {
             width: 80px;
             height: 80px;
-            background: #1b4d3e;
+            /* PERUBAHAN: Mengubah latar belakang logo menjadi hijau botol transparan dengan efek kaca agar serasi dengan gradasi latar belakang */
+            background: rgba(27, 77, 62, 0.65);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            
             border-radius: 50%;
             margin: 0 auto 12px;
             display: flex;
@@ -74,7 +79,9 @@
             color: #ffffff;
             font-weight: bold;
             direction: rtl;
-            box-shadow: 0 0 20px rgba(27, 77, 62, 0.4);
+            
+            /* PERUBAHAN: Memperkuat bayangan berpendar hijau botol agar terlihat lebih estetik di dalam kartu kaca */
+            box-shadow: 0 0 25px rgba(27, 77, 62, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.3);
         }
 
         /* Teks Baris Pertama - Ukuran 25px */
@@ -130,12 +137,12 @@
         .info-text-container {
             width: 373px; /* Disesuaikan sama dengan lebar kartu pemutar */
             /* PERUBAHAN: Diubah dari max-height ke height agar tingginya tetap mutlak 291px */
-            height: 350px; 
+            height: 291px; 
             overflow-y: auto; /* Memunculkan scrollbar vertikal otomatis jika teks > 10 baris */
             overflow-x: hidden;
             text-align: justify; /* Mengubah ke rata kanan-kiri agar terlihat lebih rapi */
             font-size: 17px;
-            line-height: 1.4; /* 1 baris = 25.5px */
+            line-height: 1.5; /* 1 baris = 25.5px */
             color: #E2E8D5;
             word-wrap: break-word;
             white-space: normal;
@@ -187,7 +194,7 @@
         <h2 class="station-title">Radio Islam Sragen</h2>
         <p class="station-sub">Lantunan Murotal dan Kajian Islam Ilmiah</p>
         <div class="iframe-container">
-            <iframe src="https://streamy1.radioislam.my.id/player/sragen-s-station/" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
+            <iframe src="https://radioislam.my.id" allow="autoplay; encrypted-media" scrolling="no" title="Streamy Player"></iframe>
         </div>
     </div>
 
@@ -202,9 +209,7 @@
         <p></p> <!-- Baris kosong ke-7 -->
         <p></p> <!-- Baris kosong ke-8 -->
         <p></p> <!-- Baris kosong ke-9 -->
-        <p></p> <!-- Baris kosong ke-10 -->
-        <p></p> <!-- Baris kosong ke-11 -->
-        <p>Baris ke-12 teks simulasi</p>
+        <p>Baris ke-10 teks simulasi</p>
     </div>
 
     <!-- TEKS BARU @dev.afcom -->
